@@ -24,8 +24,8 @@ public class AppMain implements ActionListener {
     private int _automation;
     private JFrame _frmLogin;
     private JButton _btnStart;
-    private JComboBox<String> _cmbBoxGameMode, _cmbBoxScenario, _cmbBoxProcedure,
-	    _cmbBoxAutomation;
+    private JComboBox<String> _cmbBoxGameMode, _cmbBoxScenario,
+	    _cmbBoxProcedure, _cmbBoxAutomation;
     private Reschu reschu;
 
     /**

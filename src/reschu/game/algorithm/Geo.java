@@ -21,7 +21,7 @@ public class Geo {
 
     // Distance Angular Epsilon. It is applied when comparing the position of
     // point on the circle.
-    //private static final double DAEps = 10 * Step;
+    // private static final double DAEps = 10 * Step;
 
     // Distance Epsilon. It is applied when comparing the position of point on a
     // line.
@@ -239,19 +239,14 @@ public class Geo {
     }
 
     /*
-    private static synchronized ArrayList<double[]> ReduceDuplicationHead(
-	    ArrayList<double[]> track, double[] head) {
-	track = ReduceDuplication(track);
-	if (track.size() > 0) {
-	    if ((int) Math.floor(track.get(0)[0]) == (int) Math.floor(head[0])
-		    && (int) Math.floor(track.get(0)[1]) == (int) Math
-			    .floor(head[1])) {
-		track.remove(0);
-	    }
-	}
-
-	return track;
-    }
+     * private static synchronized ArrayList<double[]> ReduceDuplicationHead(
+     * ArrayList<double[]> track, double[] head) { track =
+     * ReduceDuplication(track); if (track.size() > 0) { if ((int)
+     * Math.floor(track.get(0)[0]) == (int) Math.floor(head[0]) && (int)
+     * Math.floor(track.get(0)[1]) == (int) Math .floor(head[1])) {
+     * track.remove(0); } }
+     * 
+     * return track; }
      */
     public static synchronized ArrayList<double[]> ReduceDuplication(
 	    ArrayList<double[]> track) {

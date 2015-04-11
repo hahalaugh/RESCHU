@@ -25,6 +25,79 @@ import reschu.game.model.Vehicle;
 import reschu.game.model.VehicleList;
 import reschu.game.utils.Utils;
 
+class CollisionZoneDiff {
+    public static ArrayList<CollisionZone> App = new ArrayList<CollisionZone>();
+    public static ArrayList<CollisionZone> Disapp = new ArrayList<CollisionZone>();
+
+    public static boolean IsApp(Integer[] zoneVehicles) {
+	for (CollisionZone zone : App) {
+	    if (IsSameArray(zone.involvedVehicles, zoneVehicles)) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    public static boolean IsDisapp(Integer[] zoneVehicles) {
+	for (CollisionZone zone : Disapp) {
+	    if (IsSameArray(zone.involvedVehicles, zoneVehicles)) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    private static boolean IsSameArray(Integer[] left, Integer[] right) {
+	Integer[] cLeft = left.clone();
+	Integer[] cRight = right.clone();
+	Arrays.sort(cLeft);
+	Arrays.sort(cRight);
+
+	return Arrays.equals(cLeft, cRight);
+    }
+
+    public static void refresh(ArrayList<CollisionZone> prev,
+	    ArrayList<CollisionZone> next) {
+	boolean found = false;
+	App = new ArrayList<CollisionZone>();
+	Disapp = new ArrayList<CollisionZone>();
+
+	// Disappeared pairs
+	for (CollisionZone pcz : prev) {
+	    for (CollisionZone ncz : next) {
+		if (IsSameArray(pcz.involvedVehicles, ncz.involvedVehicles)) {
+		    if (!(pcz.isFaked ^ ncz.isFaked)) {
+			found = true;
+			break;
+		    }
+		}
+	    }
+	    if (!found) {
+		Disapp.add(pcz);
+	    }
+	    found = false;
+	}
+
+	// Appeared pairs
+	found = false;
+	for (CollisionZone ncz : next) {
+	    for (CollisionZone pcz : prev) {
+		if (IsSameArray(pcz.involvedVehicles, ncz.involvedVehicles)) {
+		    // if same pair but t->f or f->t, treated as newly appeared
+		    if (!(pcz.isFaked ^ ncz.isFaked)) {
+			found = true;
+			break;
+		    }
+		}
+	    }
+	    if (!found) {
+		App.add(ncz);
+	    }
+	    found = false;
+	}
+    }
+}
+
 public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	MouseMotionListener, PopupMenuListener {
     private static final long serialVersionUID = -4987595764448267113L;
@@ -52,6 +125,12 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
     // private Image backbuffer;
     // private Graphics2D backg;
     private static Image img;
+    public double cGoodAuto = 0;
+    public double cMalAuto = 1;
+
+    public boolean IsMalfunctionalAutoRequired() {
+	return (cGoodAuto / (cGoodAuto + cMalAuto)) > MyGame.AUTO_RELIABILITY;
+    }
 
     public String CollisionZonesToString() {
 	String result = "Collisions:\n";
@@ -89,6 +168,7 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 
     private byte[][] collisionMap;
     private ArrayList<CollisionZone> collisionZones;
+    public ArrayList<CollisionZone> fakeCollisionZones;
 
     private synchronized Vehicle getV() {
 	return selectedVehicle;
@@ -118,14 +198,15 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	dragWPMode = false;
 	eventDisabled = false;
 	drag_to_prev = new int[] { 0, 0 }; // to optimize repainting when drag.
-					   // saves the previous mouse point.
+	// saves the previous mouse point.
 	region = new int[] { 0, 0, 0, 0 }; // bogus value
 
 	btnEmpty = new JButton();
 	btnEmpty.setEnabled(false);
 
 	this.setSize(mapWidth, mapHeight);
-
+	this.collisionZones = new ArrayList<CollisionZone>();
+	this.fakeCollisionZones = new ArrayList<CollisionZone>();
 	try {
 	    if (g.getWorkload() == MyGameMode.HIGH_WORKLOAD) {
 		img = Toolkit.getDefaultToolkit().getImage(
@@ -360,10 +441,11 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	    // int[] rect = this.collisionZones.get(i).collisionArea;
 	    // Integer[][] collisionArea =
 	    // this.collisionZones.get(i).collisionArea;
-	    Rectangle2D r = this.collisionZones.get(i).collisionArea;
+	    CollisionZone cz = collisionZones.get(i);
+	    Rectangle2D r = cz.collisionArea;
 	    p.paintRect(g, (int) r.getX(), (int) r.getY(), (int) r.getX()
 		    + (int) r.getWidth(), (int) r.getY() + (int) r.getHeight(),
-		    cellsize);
+		    cellsize, cz.isFaked);
 	    // p.paintRect(g, rect[0], rect[1], rect[2], rect[3], cellsize);
 	    // p.fillPolygon(g, collisionArea[0], collisionArea[1], cellsize);
 	}
@@ -1143,8 +1225,37 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
     private void updateCollisionMap() {
 	collisionMap = CollisionMap.GetVHCollision(this.getHeight(),
 		this.getWidth(), map.getListHazard(), game.getVehicleList());
-	collisionZones = CollisionMap.GetVVCollision(this.getHeight(),
-		this.getHeight(), game.getVehicleList());
+
+	ArrayList<CollisionZone> newCollisionZone = CollisionMap
+		.GetVVCollision(this.getHeight(), this.getHeight(),
+			game.getVehicleList());
+
+	if (IsMalfunctionalAutoRequired()) {
+	    CollisionZone fakeCZ = CollisionMap.FakeCollisionZone(
+		    this.getHeight(), this.getWidth(), game.getVehicleList(),
+		    newCollisionZone, this.fakeCollisionZones);
+
+	    if (fakeCZ != null) {
+		this.fakeCollisionZones.add(fakeCZ);
+	    }
+	}
+
+	if (this.fakeCollisionZones.size() > 0) {
+	    newCollisionZone.addAll(fakeCollisionZones);
+	}
+
+	CollisionZoneDiff.refresh(collisionZones, newCollisionZone);
+	for (CollisionZone cz : CollisionZoneDiff.App) {
+	    if (cz.isFaked) {
+		this.cMalAuto++;
+		System.out.println(this.cMalAuto + "," + this.cGoodAuto);
+	    } else {
+		this.cGoodAuto++;
+		System.out.println(this.cMalAuto + "," + this.cGoodAuto);
+	    }
+	}
+
+	this.collisionZones = newCollisionZone;
     }
 
     // when cursor is on collision zone, return the involved vehicle of pointed
@@ -1201,8 +1312,13 @@ class PaintComponent {
     }
 
     public void paintRect(Graphics2D g, int x1, int y1, int x2, int y2,
-	    int SIZE_CELL) {
-	g.setColor(new Color(255, 0, 0, 65));
+	    int SIZE_CELL, boolean isFaked) {
+	if (isFaked) {
+	    g.setColor(new Color(0, 255, 0, 65));
+	} else {
+	    g.setColor(new Color(255, 0, 0, 65));
+	}
+
 	g.fillRect(x1 * SIZE_CELL, y1 * SIZE_CELL, (x2 - x1) * SIZE_CELL,
 		(y2 - y1) * SIZE_CELL);
     }

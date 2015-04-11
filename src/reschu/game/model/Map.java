@@ -235,7 +235,7 @@ public class Map {
 		- getTargetSize("SHORE");
 	int nCommTargetNeed = MyGame.nTARGET_AREA_COMM - getTargetSize("COMM");
 
-	//int cnt = 0;
+	// int cnt = 0;
 	// final int limit = 100000;
 
 	for (int i = 0; i < nLandTargetNeed; i++) {

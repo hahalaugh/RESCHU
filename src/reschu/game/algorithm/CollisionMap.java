@@ -3,9 +3,14 @@ package reschu.game.algorithm;
 import java.awt.Polygon;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import reschu.constants.MyGame;
+import reschu.constants.MySize;
 import reschu.game.model.Vehicle;
 import reschu.game.model.VehicleList;
 
@@ -14,9 +19,40 @@ public class CollisionMap {
     public final static byte TRACK_COLLISION = 1;
     public final static byte HAZARD_COLLISION = 2;
 
+    static private Integer[][][] GetPathMap(int height, int width,
+	    VehicleList vl, Integer[] freeVIds) {
+	Integer[][][] mp = new Integer[width][height][];
+	for (int i = 0; i < freeVIds.length; i++) {
+	    Vehicle v = vl.getVehicleByIndex(freeVIds[i]);
+	    ArrayList<double[]> track = v.getTrack();
+	    for (int j = 0; j < track.size(); j++) {
+		double[] pixel = track.get(j);
+		// Set cell with vehicle id
+
+		mp[(int) pixel[0]][(int) pixel[1]] = RemoveDuplicates(ExpendArray(
+			mp[(int) pixel[0]][(int) pixel[1]], v.getIndex()));
+	    }
+	}
+	return mp;
+    }
+
+    private static Integer[] RemoveDuplicates(Integer[] arr) {
+	return new HashSet<Integer>(Arrays.asList(arr)).toArray(new Integer[0]);
+    }
+
+    static private Integer[] ExpendArray(Integer[] ori, int item) {
+	if (ori == null) {
+	    return new Integer[] { item };
+	} else {
+	    Integer[] expended = new Integer[ori.length + 1];
+	    System.arraycopy(ori, 0, expended, 0, ori.length);
+	    expended[expended.length - 1] = item;
+	    return expended;
+	}
+    }
+
     static public byte[][] GetVHCollision(int height, int width,
 	    LinkedList<int[]> hazards, VehicleList vl) {
-
 	double[][] map = new double[width][height];
 	byte[][] collisionMap = new byte[width][height];
 
@@ -107,11 +143,10 @@ public class CollisionMap {
 			// adding involved vehicle and bounding box of
 			// collision
 			// area
-			CollisionPrediction
-				.add(new CollisionZone(
-					PreciseCollisionArea(CollisionArea),
-					new int[] { vSource.getIndex(),
-						vOppo.getIndex() }));
+			CollisionPrediction.add(new CollisionZone(
+				PreciseCollisionArea(CollisionArea),
+				new Integer[] { vSource.getIndex(),
+					vOppo.getIndex() }, false));
 		    }
 		}
 	    } else {
@@ -159,8 +194,8 @@ public class CollisionMap {
 			    // int[] { vSource.getIndex(), vOppo.getIndex() }));
 			    CollisionPrediction.add(new CollisionZone(
 				    PreciseCollisionArea(CollisionArea),
-				    new int[] { vSource.getIndex(),
-					    vOppo.getIndex() }));
+				    new Integer[] { vSource.getIndex(),
+					    vOppo.getIndex() }, false));
 			}
 		    }
 		}
@@ -221,5 +256,104 @@ public class CollisionMap {
 	    r.addPoint(x, y);
 	}
 	return r.getBounds2D();
+    }
+
+    // Fake a collision zone. Find the most suspicious cross and add a highlight
+    // area on it.
+    public static CollisionZone FakeCollisionZone(int height, int width,
+	    VehicleList vl, ArrayList<CollisionZone> cz,
+	    ArrayList<CollisionZone> fakeCz) {
+	// find free vehicles
+	ArrayList<CollisionZone> tempCZ = new ArrayList<CollisionZone>(cz);
+	tempCZ.addAll(fakeCz);
+
+	Integer[] freeVIds = GetCollisionFreeVehicles(tempCZ);
+
+	if (freeVIds.length <= 1) {
+	    return null;
+	}
+
+	Integer[][][] pathMap = GetPathMap(height, width, vl, freeVIds);
+
+	ArrayList<CollisionIntersect> cis = new ArrayList<CollisionIntersect>();
+	for (int i = 0; i < pathMap.length; i++) {
+	    for (int j = 0; j < pathMap[0].length; j++) {
+		if (pathMap[i][j] != null && pathMap[i][j].length >= 2) {
+		    cis.add(new CollisionIntersect(i, j, pathMap[i][j], vl));
+		}
+	    }
+	}
+
+	// according to path map, get if there is available collision zone.
+	Collections.sort(cis, new CollisionIntersectComparator());
+	CollisionZone zone = null;
+	if (cis.size() > 0) {
+	    CollisionIntersect fakeCI = cis.get(cis.size() - 1);
+	    if (fakeCI != null) {
+		Polygon r = new Polygon();
+		r.addPoint((int) fakeCI.pos[0] + MySize.SIZE_FAKE_COLLISION,
+			(int) fakeCI.pos[1] + MySize.SIZE_FAKE_COLLISION);
+		r.addPoint((int) fakeCI.pos[0] + MySize.SIZE_FAKE_COLLISION,
+			(int) fakeCI.pos[1] - MySize.SIZE_FAKE_COLLISION);
+		r.addPoint((int) fakeCI.pos[0] - MySize.SIZE_FAKE_COLLISION,
+			(int) fakeCI.pos[1] + MySize.SIZE_FAKE_COLLISION);
+		r.addPoint((int) fakeCI.pos[0] - MySize.SIZE_FAKE_COLLISION,
+			(int) fakeCI.pos[1] - MySize.SIZE_FAKE_COLLISION);
+
+		zone = new CollisionZone(r.getBounds2D(),
+			fakeCI.involvedVehicleId, true);
+	    }
+	}
+
+	return zone;
+    }
+
+    private static Integer[] GetCollisionFreeVehicles(
+	    ArrayList<CollisionZone> curCollisionZones) {
+	HashSet<Integer> vehiclesInCollision = new HashSet<Integer>();
+	ArrayList<Integer> cFreeVehicles = new ArrayList<Integer>();
+	for (CollisionZone cz : curCollisionZones) {
+	    for (Integer i : cz.involvedVehicles) {
+		// add ID
+		vehiclesInCollision.add(i);
+	    }
+	}
+
+	for (int i = 1; i <= 5; i++) {
+	    if (!vehiclesInCollision.contains(i)) {
+		cFreeVehicles.add(i);
+	    }
+	}
+
+	return cFreeVehicles.toArray(new Integer[cFreeVehicles.size()]);
+    }
+}
+
+class CollisionIntersect {
+    public CollisionIntersect(int x, int y, Integer[] involvedVehicleId,
+	    VehicleList vl) {
+	super();
+	this.involvedVehicleId = involvedVehicleId;
+	pos = new double[] { x, y };
+	this.vl = vl;
+    }
+
+    Integer[] involvedVehicleId;
+    double[] pos;
+    private VehicleList vl;
+
+    public double Distance() {
+	double total = 0;
+	for (int i = 0; i < involvedVehicleId.length; i++) {
+	    total += Geo.Distance(pos,
+		    vl.getVehicleByIndex(involvedVehicleId[i]).movingStatus);
+	}
+	return total / (involvedVehicleId.length);
+    }
+}
+
+class CollisionIntersectComparator implements Comparator<CollisionIntersect> {
+    public int compare(CollisionIntersect o1, CollisionIntersect o2) {
+	return Double.compare(o1.Distance(), o2.Distance());
     }
 }

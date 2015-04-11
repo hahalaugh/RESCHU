@@ -181,4 +181,12 @@ public interface GUI_Listener {
     public void CollisionZoneDecreased(int currentNumber);
 
     public void CollisionZoneIncreased(int currentNumber);
+
+    public void UpdateFakeCollisionZoneListAuto(Integer[] vIds);
+
+    public void UpdateFakeCollisionZoneListEnter();
+
+    public void UpdateFakeCollisionZoneListTrack(Integer vId);
+
+    public boolean IsFakedCollisionZonePair(Integer vId1, Integer vId2);
 }

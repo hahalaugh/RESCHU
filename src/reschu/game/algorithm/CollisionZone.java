@@ -3,10 +3,12 @@ package reschu.game.algorithm;
 import java.awt.geom.Rectangle2D;
 
 public class CollisionZone {
-    public CollisionZone(Rectangle2D collisionArea, int[] involvedVehicles) {
+    public CollisionZone(Rectangle2D collisionArea, Integer[] involvedVehicles,
+	    boolean isFaked) {
 	super();
 	this.collisionArea = collisionArea;
 	this.involvedVehicles = involvedVehicles;
+	this.isFaked = isFaked;
     }
 
     // Bounding box of collision area;
@@ -14,17 +16,19 @@ public class CollisionZone {
     public Rectangle2D collisionArea;
 
     // involved vehicle id;
-    public int[] involvedVehicles;
+    public Integer[] involvedVehicles;
+
+    // is faked collision area?
+    public boolean isFaked;
 
     @Override
     public String toString() {
 	Rectangle2D r = this.collisionArea.getBounds2D();
-	return String.format(
-		"Area: [%d, %d, %d, %d] vehicles: %s\n",
+	return String.format("Area: [%d, %d, %d, %d] vehicles: %s\n faked: %b",
 		(int) r.getX(), (int) r.getY(),
 		(int) r.getX() + (int) r.getWidth(),
 		(int) r.getY() + (int) r.getHeight(),
-		involvedVehiclesToString());
+		involvedVehiclesToString(), this.isFaked);
     }
 
     private String involvedVehiclesToString() {

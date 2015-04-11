@@ -63,7 +63,7 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 
     private TextRenderer trB24;
 
-    //rivate Random rnd = new Random();
+    // rivate Random rnd = new Random();
     private BufferedImage img;
     private Game g;
     private GUI_Listener lsnr;
@@ -120,8 +120,8 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
     }
 
     public Payload curPayload;
-    //private float x_limit = (float) rnd.nextInt(10);
-    //private float y_limit = (float) rnd.nextInt(10);
+    // private float x_limit = (float) rnd.nextInt(10);
+    // private float y_limit = (float) rnd.nextInt(10);
     // private boolean penalize;
     private boolean enabled = false;
     private boolean isControlEnabled = false;
@@ -143,8 +143,8 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
     private double wcoord2[] = new double[4];
     private double wcoord3[] = new double[4];
 
-    //private int x_direction = 2;
-    //private int y_direction = 2;
+    // private int x_direction = 2;
+    // private int y_direction = 2;
 
     private FloatBuffer frameBuffer = ByteBuffer.allocateDirect(4)
 	    .order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -199,65 +199,36 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
     }
 
     private void initTextRenenders() {
-	new TextRenderer(new Font("SansSerif", Font.PLAIN, 14), true,
-		false);
-	new TextRenderer(new Font("SansSerif", Font.BOLD, 12), true,
-		false);
-	new TextRenderer(new Font("SansSerif", Font.BOLD, 17), true,
-		false);
-	new TextRenderer(new Font("SansSerif", Font.BOLD, 20), true,
-		false);
+	new TextRenderer(new Font("SansSerif", Font.PLAIN, 14), true, false);
+	new TextRenderer(new Font("SansSerif", Font.BOLD, 12), true, false);
+	new TextRenderer(new Font("SansSerif", Font.BOLD, 17), true, false);
+	new TextRenderer(new Font("SansSerif", Font.BOLD, 20), true, false);
 	trB24 = new TextRenderer(new Font("SansSerif", Font.BOLD, 24), true,
 		false);
     }
 
     /**
      * A thread for making the screen vibrate
-
-    private void makeVibrateThread() {
-	new Thread(new Runnable() {
-	    public void run() {
-		while (true) {
-		    try {
-			Thread.sleep(50);
-		    } catch (InterruptedException e) {
-		    }
-
-		    x_dist += x_direction * ((float) rnd.nextGaussian() + 2);
-		    y_dist += y_direction * ((float) rnd.nextGaussian() + 2);
-
-		    if (x_direction > 0) {
-			if (x_dist > x_limit) {
-			    x_limit = 6 * (float) rnd.nextInt(3);
-			    x_direction = -x_direction;
-			}
-		    } else {
-			if (x_dist < -x_limit) {
-			    x_limit = 6 * (float) rnd.nextInt(3);
-			    x_direction = -x_direction;
-			}
-		    }
-
-		    if (y_direction > 0) {
-			if (y_dist > y_limit) {
-			    y_limit = 6 * (float) rnd.nextInt(3);
-			    y_direction = -y_direction;
-			}
-		    } else {
-			if (y_dist < -y_limit) {
-			    y_limit = 6 * (float) rnd.nextInt(3);
-			    y_direction = -y_direction;
-			}
-		    }
-		    flash = (float) (flash + 0.1) % 2;
-		    // rotate_angle = rotate_angle + 1;
-		    // glCanvas.display();
-		}
-	    }
-	}).start();
-    }
+     * 
+     * private void makeVibrateThread() { new Thread(new Runnable() { public
+     * void run() { while (true) { try { Thread.sleep(50); } catch
+     * (InterruptedException e) { }
+     * 
+     * x_dist += x_direction * ((float) rnd.nextGaussian() + 2); y_dist +=
+     * y_direction * ((float) rnd.nextGaussian() + 2);
+     * 
+     * if (x_direction > 0) { if (x_dist > x_limit) { x_limit = 6 * (float)
+     * rnd.nextInt(3); x_direction = -x_direction; } } else { if (x_dist <
+     * -x_limit) { x_limit = 6 * (float) rnd.nextInt(3); x_direction =
+     * -x_direction; } }
+     * 
+     * if (y_direction > 0) { if (y_dist > y_limit) { y_limit = 6 * (float)
+     * rnd.nextInt(3); y_direction = -y_direction; } } else { if (y_dist <
+     * -y_limit) { y_limit = 6 * (float) rnd.nextInt(3); y_direction =
+     * -y_direction; } } flash = (float) (flash + 0.1) % 2; // rotate_angle =
+     * rotate_angle + 1; // glCanvas.display(); } } }).start(); }
      */
-    
+
     /**
      * Called by the drawable immediately after the OpenGL context is
      * initialized.

@@ -33,7 +33,7 @@ public class Game implements Runnable, ActionListener {
     static public int HALF_TOTAL_GAME = TIME_TOTAL_GAME / 2;
 
     private double PROBABILITY_TARGET_VISIBILITY; // The higher, the more
-						  // visible target
+    // visible target
 
     private int nTargetAreaTotal = (Reschu.tutorial()) ? MyGame.nTARGET_AREA_TOTAL_TUTORIAL
 	    : MyGame.nTARGET_AREA_TOTAL;
@@ -81,13 +81,6 @@ public class Game implements Runnable, ActionListener {
     private final int workload;
     private final int automation;
     public String mapLogDescription;
-
-    public double cGoodAuto = 0;
-    public double cBadAuto = 1;
-
-    public boolean isBadAutoRequired() {
-	return (cGoodAuto / (cGoodAuto + cBadAuto)) > MyGame.AUTO_RELIABILITY;
-    }
 
     public int getWorkload() {
 	return workload;
@@ -221,26 +214,13 @@ public class Game implements Runnable, ActionListener {
     }
 
     /*
-    private void setProbability_Target_Visibility(int scenario) {
-	switch (scenario) {
-	case 1:
-	    PROBABILITY_TARGET_VISIBILITY = 1;
-	    break;
-	case 2:
-	    PROBABILITY_TARGET_VISIBILITY = 1;
-	    break;
-	case 3:
-	    PROBABILITY_TARGET_VISIBILITY = 0.5;
-	    break;
-	case 4:
-	    PROBABILITY_TARGET_VISIBILITY = 0.7;
-	    break;
-	default:
-	    PROBABILITY_TARGET_VISIBILITY = 1;
-	    break;
-	}
-    }
-*/
+     * private void setProbability_Target_Visibility(int scenario) { switch
+     * (scenario) { case 1: PROBABILITY_TARGET_VISIBILITY = 1; break; case 2:
+     * PROBABILITY_TARGET_VISIBILITY = 1; break; case 3:
+     * PROBABILITY_TARGET_VISIBILITY = 0.5; break; case 4:
+     * PROBABILITY_TARGET_VISIBILITY = 0.7; break; default:
+     * PROBABILITY_TARGET_VISIBILITY = 1; break; } }
+     */
     public void setVehicle(int scenario, int workload) {
 	int speed = 0;
 	if (workload == MyGameMode.HIGH_WORKLOAD) {
@@ -522,9 +502,9 @@ public class Game implements Runnable, ActionListener {
 		    for (int n = -w; n < w; n++)
 			if (w_x == x + m && w_y == y + n)
 			    return new StructSelectedPoint(v, w_x, w_y, 0); // 0
-									    // =
-									    // no
-									    // meaning
+		// =
+		// no
+		// meaning
 	    }
 	}
 	return null;
@@ -725,6 +705,9 @@ public class Game implements Runnable, ActionListener {
 	}
 	vehicle_location_change();
 
+	// Juntao: when vehicle enters faked collision zone, zone disappears.
+	lsnr.UpdateFakeCollisionZoneListEnter();
+
 	// Update pnlControl's "ENGAGE" button
 	if (elapsedTime % MySpeed.SPEED_CLOCK == 0)
 	    lsnr.Clock_Tick(elapsedTime);
@@ -829,6 +812,7 @@ public class Game implements Runnable, ActionListener {
 
 	try {
 	    UpdateVehicleAvoidPath(vl);
+	    lsnr.UpdateFakeCollisionZoneListAuto(vIds);
 	} catch (TimeoutException e) {
 	    lsnr.Automation_Application_Failed(vIds);
 	}
@@ -881,7 +865,15 @@ public class Game implements Runnable, ActionListener {
 		    double x = simuMovingStatus.get(j)[0];
 		    double y = simuMovingStatus.get(j)[1];
 		    double d = Math.pow(Math.hypot(px - x, py - y), 2);
-		    double p = Math.pow(vl.get(i).RDes + vl.get(j).RDes, 2);
+
+		    double p = 0;
+		    if (lsnr.IsFakedCollisionZonePair(vl.get(i).getIndex(), vl
+			    .get(j).getIndex())) {
+			p = Math.pow(vl.get(i).RDes + vl.get(j).RDes
+				+ MyGame.RDES_CALIBRATION, 2);
+		    } else {
+			p = Math.pow(vl.get(i).RDes + vl.get(j).RDes, 2);
+		    }
 
 		    angle = Math.atan2(py - y, px - x);
 		    dx += Math.cos(angle) / d * p;

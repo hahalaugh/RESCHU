@@ -2,7 +2,10 @@ package reschu.game.controller;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -15,6 +18,7 @@ import reschu.game.model.Game;
 import reschu.game.model.Payload;
 import reschu.game.model.UserDefinedException;
 import reschu.game.model.Vehicle;
+import reschu.game.model.VehicleList;
 import reschu.game.utils.SituationAwareness;
 import reschu.game.view.MyCanvas;
 import reschu.game.view.PanelControl;
@@ -35,9 +39,9 @@ public class Reschu extends JFrame implements GUI_Listener {
     public static int _workload;
     public static int _scenario; // scenario number ranges between 1 and 4
     public static int _gamemode; // the game has several modes. see
-				 // reschu.constant.MyGameMode
+    // reschu.constant.MyGameMode
     public static boolean _database; // if set to false, we don't write to
-				     // database
+    // database
     public static int _automation;
 
     public JPanel pnlMapContainer;
@@ -682,11 +686,9 @@ public class Reschu extends JFrame implements GUI_Listener {
     }
 
     /*
-    private void play(String arg) {
-	new WAVPlayer(arg).start();
-    }
+     * private void play(String arg) { new WAVPlayer(arg).start(); }
      */
-    
+
     // Juntao: Check payload improve image quality.
     public synchronized void CheckPayload() {
 	// TODO Auto-generated method stub
@@ -846,5 +848,64 @@ public class Reschu extends JFrame implements GUI_Listener {
 		currentNumber);
 	Write(MyDB.INVOKER_SYSTEM, MyDB.COLLISION_ZONE_INCREASED, -1, message,
 		-1, -1);
+    }
+
+    public void UpdateFakeCollisionZoneListAuto(Integer[] vIds) {
+	// TODO Auto-generated method stub
+	Iterator<CollisionZone> itCz = pnlMap.fakeCollisionZones.iterator();
+	while (itCz.hasNext()) {
+	    CollisionZone cz = itCz.next();
+	    boolean contains = true;
+	    for (int i = 0; i < cz.involvedVehicles.length; i++) {
+		contains &= Arrays.asList(vIds)
+			.contains(cz.involvedVehicles[i]);
+	    }
+
+	    if (contains) {
+		itCz.remove();
+	    }
+	}
+    }
+
+    public void UpdateFakeCollisionZoneListEnter() {
+	VehicleList vl = game.getVehicleList();
+	Iterator<CollisionZone> itCz = pnlMap.fakeCollisionZones.iterator();
+	while (itCz.hasNext()) {
+	    CollisionZone cz = itCz.next();
+	    for (int i = 0; i < vl.size(); i++) {
+		Vehicle v = vl.getVehicle(i);
+		Point2D p = new Point2D.Double(v.movingStatus[0],
+			v.movingStatus[1]);
+		if (cz.collisionArea.contains(p)) {
+		    itCz.remove();
+		    break;
+		}
+	    }
+	}
+
+    }
+
+    public void UpdateFakeCollisionZoneListTrack(Integer vId) {
+	// TODO Auto-generated method stub
+	Iterator<CollisionZone> itCz = pnlMap.fakeCollisionZones.iterator();
+	while (itCz.hasNext()) {
+	    CollisionZone cz = itCz.next();
+	    if (Arrays.asList(cz.involvedVehicles).contains(vId)) {
+		itCz.remove();
+		break;
+	    }
+	}
+    }
+
+    public boolean IsFakedCollisionZonePair(Integer vId1, Integer vId2) {
+	// TODO Auto-generated method stub
+	for (int i = 0; i < pnlMap.fakeCollisionZones.size(); i++) {
+	    CollisionZone cz = pnlMap.fakeCollisionZones.get(i);
+	    if (Arrays.asList(cz.involvedVehicles).contains(vId1)
+		    && Arrays.asList(cz.involvedVehicles).contains(vId2)) {
+		return true;
+	    }
+	}
+	return false;
     }
 }

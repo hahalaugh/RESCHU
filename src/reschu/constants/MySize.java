@@ -26,4 +26,5 @@ public class MySize {
     final static public int SIZE_HIGHLIGHT_PXL = 50;
     final static public int SIZE_UAV_COMM_PXL = 60;
 
+    final static public int SIZE_FAKE_COLLISION = 10;
 }

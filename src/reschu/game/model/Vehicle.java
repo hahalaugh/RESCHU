@@ -49,6 +49,7 @@ public class Vehicle {
 
     public synchronized void setTrack(ArrayList<double[]> t) {
 	track = new ArrayList<double[]>(t);
+	lsnr.UpdateFakeCollisionZoneListTrack(getIndex());
     }
 
     /**
@@ -675,8 +676,8 @@ public class Vehicle {
 		    setStatus(MyGame.STATUS_VEHICLE_PENDING);
 		} else {
 		    setStatus(MyGame.STATUS_VEHICLE_PENDING);
-		    //String msg = "Vehicle [" + index
-			   // + "] has reached its target.";
+		    // String msg = "Vehicle [" + index
+		    // + "] has reached its target.";
 		    // PanelMsgBoard.Msg(msg, MessageType.SystemInfo);
 		}
 		lsnr.EVT_Vehicle_ArrivesToTarget(index, getTarget().getName(),
@@ -836,6 +837,8 @@ public class Vehicle {
 	    track.get(track.size() - 1)[3] = 1;
 	    src = dest;
 	}
+
+	lsnr.UpdateFakeCollisionZoneListTrack(getIndex());
     }
 
     @Override
