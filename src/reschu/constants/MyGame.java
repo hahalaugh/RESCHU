@@ -45,6 +45,6 @@ public class MyGame {
     final static public int AUTO_LOW = 0;
     final static public int AUTO_HIGH = 1;
 
-    final static public double AUTO_RELIABILITY = 0.8;
+    final static public double AUTO_RELIABILITY = 0.9;
     final static public double RDES_CALIBRATION = 5;
 }

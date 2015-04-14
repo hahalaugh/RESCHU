@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 
 import reschu.constants.MyGame;
 import reschu.constants.MySize;
@@ -291,14 +292,19 @@ public class CollisionMap {
 	    CollisionIntersect fakeCI = cis.get(cis.size() - 1);
 	    if (fakeCI != null) {
 		Polygon r = new Polygon();
-		r.addPoint((int) fakeCI.pos[0] + MySize.SIZE_FAKE_COLLISION,
-			(int) fakeCI.pos[1] + MySize.SIZE_FAKE_COLLISION);
-		r.addPoint((int) fakeCI.pos[0] + MySize.SIZE_FAKE_COLLISION,
-			(int) fakeCI.pos[1] - MySize.SIZE_FAKE_COLLISION);
-		r.addPoint((int) fakeCI.pos[0] - MySize.SIZE_FAKE_COLLISION,
-			(int) fakeCI.pos[1] + MySize.SIZE_FAKE_COLLISION);
-		r.addPoint((int) fakeCI.pos[0] - MySize.SIZE_FAKE_COLLISION,
-			(int) fakeCI.pos[1] - MySize.SIZE_FAKE_COLLISION);
+		Random rnd = new Random(5);
+		r.addPoint((int) fakeCI.pos[0] + MySize.SIZE_FAKE_COLLISION
+			+ rnd.nextInt(10), (int) fakeCI.pos[1]
+			+ MySize.SIZE_FAKE_COLLISION + rnd.nextInt(10));
+		r.addPoint((int) fakeCI.pos[0] + MySize.SIZE_FAKE_COLLISION
+			+ rnd.nextInt(10), (int) fakeCI.pos[1]
+			- MySize.SIZE_FAKE_COLLISION - rnd.nextInt(10));
+		r.addPoint((int) fakeCI.pos[0] - MySize.SIZE_FAKE_COLLISION
+			- rnd.nextInt(10), (int) fakeCI.pos[1]
+			+ MySize.SIZE_FAKE_COLLISION + rnd.nextInt(10));
+		r.addPoint((int) fakeCI.pos[0] - MySize.SIZE_FAKE_COLLISION
+			- rnd.nextInt(10), (int) fakeCI.pos[1]
+			- MySize.SIZE_FAKE_COLLISION - rnd.nextInt(10));
 
 		zone = new CollisionZone(r.getBounds2D(),
 			fakeCI.involvedVehicleId, true);

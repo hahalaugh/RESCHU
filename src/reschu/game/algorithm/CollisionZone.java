@@ -3,6 +3,9 @@ package reschu.game.algorithm;
 import java.awt.geom.Rectangle2D;
 
 public class CollisionZone {
+    
+    private static int indexCurosr = 0;
+    
     public CollisionZone(Rectangle2D collisionArea, Integer[] involvedVehicles,
 	    boolean isFaked) {
 	super();
@@ -11,6 +14,7 @@ public class CollisionZone {
 	this.isFaked = isFaked;
     }
 
+    //
     // Bounding box of collision area;
     // public Integer[][] collisionArea;
     public Rectangle2D collisionArea;
