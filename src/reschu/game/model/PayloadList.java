@@ -8,9 +8,12 @@ import reschu.game.controller.Reschu;
 public class PayloadList {
     private ArrayList<Payload> payload_list = new ArrayList<Payload>();
     private Random rnd;
+    private int index = 0;
+    private boolean isInOrder;
 
-    public PayloadList() {
+    public PayloadList(boolean isInOrder) {
 	rnd = new Random(System.currentTimeMillis());
+	this.isInOrder = isInOrder;
     }
 
     public int size() {
@@ -37,7 +40,20 @@ public class PayloadList {
 
 	else {
 	    do {
-		p = payload_list.get(rnd.nextInt(payload_list.size() - 1));
+		// Juntao: Do not randomly get payload. Sequential instead
+		if (payload_list.size() != 0) {
+		    if (isInOrder) {
+			// Order
+			p = payload_list.get(index++ % payload_list.size());
+		    } else {
+			// Reverse order
+			p = payload_list.get((payload_list.size() - 1)
+				- (index++ % payload_list.size()));
+		    }
+
+		} else {
+		    p = payload_list.get(rnd.nextInt(payload_list.size() - 1));
+		}
 
 		// Juntao: Do not return null payload. Ignore the cnt logic
 		// here.

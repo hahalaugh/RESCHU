@@ -136,9 +136,17 @@ public class Game implements Runnable, ActionListener {
 
 	vehicle_list = new VehicleList(this);
 	// @change-removed passing random object to PayloatList() 2008-04-01
-	hintedPayloadList = new PayloadList();
-	maybePayloadList = new PayloadList();
-	noHintPayloadList = new PayloadList();
+
+	boolean order = true;
+	if (this.automation == MyGame.AUTO_HIGH) {
+	    order = true;
+	} else {
+	    order = false;
+	}
+
+	hintedPayloadList = new PayloadList(order);
+	maybePayloadList = new PayloadList(order);
+	noHintPayloadList = new PayloadList(order);
 
 	map = new Map(MySize.width, MySize.height, this, lsnr);
 	elapsedTime = 0;
@@ -697,10 +705,15 @@ public class Game implements Runnable, ActionListener {
 
 	    for (int j = i + 1; j < vehicle_list.size(); j++) {
 		Vehicle vOppo = vehicle_list.getVehicle(j);
-		if (v.inCollision(vOppo)) {
-		    vvDamage(0.1);
-		    break;
+		// Juntao: count collision iff at least one vehicle is moving
+		if (v.getStatus() == MyGame.STATUS_VEHICLE_MOVING
+			|| vOppo.getStatus() == MyGame.STATUS_VEHICLE_MOVING) {
+		    if (v.inCollision(vOppo)) {
+			vvDamage(0.1);
+			break;
+		    }
 		}
+
 	    }
 	}
 	vehicle_location_change();

@@ -202,7 +202,7 @@ class VehicleGeneralPanel extends JPanel {
 	    }
 
 	    infoList[i].setInCollisionVIds(s.toArray(new Integer[s.size()]),
-		    Game.automationEnabled);
+		    Game.automationEnabled, Game.collisionHighlightEnabled);
 	}
     }
 
@@ -289,19 +289,25 @@ class VehicleCompactInfo extends JPanel implements ActionListener {
     };
 
     public void setInCollisionVIds(Integer[] inCollisionVIds,
-	    boolean isAutomationEnabled) {
+	    boolean isAutomationEnabled, boolean isHighlightEnabled) {
 	this.inCollisionVIds = inCollisionVIds;
 
 	if (Arrays.asList(this.inCollisionVIds).contains(this.v.getIndex())) {
-	    lblStatus.setText(APPROACHING_COLLISION + " "
-		    + GetCollisionZoneString());
+
 	    if (isAutomationEnabled) {
 		btnApplyAuto.setEnabled(true);
 	    }
+	    if (isHighlightEnabled) {
+		lblStatus.setText(APPROACHING_COLLISION + " "
+			+ GetCollisionZoneString());
+	    }
 	} else {
-	    lblStatus.setText("");
+
 	    if (isAutomationEnabled) {
 		btnApplyAuto.setEnabled(false);
+	    }
+	    if (isHighlightEnabled) {
+		lblStatus.setText("");
 	    }
 	}
     }
@@ -329,7 +335,7 @@ class VehicleCompactInfo extends JPanel implements ActionListener {
 	// SECOND
 	lblHealth = new JLabel("Damage : " + intDamage); // COLOR =
 							 // lblHealth.setForeground
-	lblStatus = new JLabel("Current Status : " + v.getPayload());
+	lblStatus = new JLabel("");
 	pnlInfo = new JPanel();
 	// pnlInfo.setLayout(new GridLayout(0, 0));
 	pnlInfo.setBorder(bdrTitle);
