@@ -94,7 +94,7 @@ public class PanelMsgBoard extends JPanel implements ActionListener {
 	    txtMsgBoard.getStyledDocument().insertString(
 		    txtMsgBoard.getStyledDocument().getLength(),
 		    Now() + "   " + msg + "\n", f);
-	    // txtMsgBoard.setCaretPosition(0);
+	    txtMsgBoard.setCaretPosition(txtMsgBoard.getDocument().getLength());
 	} catch (BadLocationException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

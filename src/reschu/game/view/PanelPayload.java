@@ -336,7 +336,8 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	    if (this.isControlEnabled) {
 		// Juntao: Do not move around with mouse clicking. Only provides
 		// fixed view in all kinds of payload tasks.
-		// unproj(gl, mouseEvt.getX(), mouseEvt.getY(), wcoord);
+		System.out.println("enabled");
+		unproj(gl, mouseEvt.getX(), mouseEvt.getY(), wcoord);
 	    }
 	    // Check if the clicked position is the correct target position
 	    setCorrect();
@@ -557,7 +558,7 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	}).start();
 
 	glEnabled(true);
-	glControlEnabled(false);
+	glControlEnabled(true);
 
 	correct = false;
 	lsnr.Payload_Assigned_From_pnlPayload(v, curPayload);
@@ -785,7 +786,6 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 		mvmatrix, 0, projmatrix, 0, viewport, 0, wcoord, 0);
 
 	wcoord[1] = viewport[3] - wcoord[1];
-
     }
 
     public void mouse_click(java.awt.event.MouseEvent m_ev) {
@@ -824,8 +824,9 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	} else {
 	    correct = false;
 	}
-	if (GL_DEBUG)
-	    System.out.println("GL: setCorrect(" + correct + ") called");
+	
+	System.out.println(wcoord[0] + "," + wcoord[1]);
+	System.out.println("GL: setCorrect(" + correct + ") called");
     }
 
     /**

@@ -1,0 +1,20 @@
+<p><b>Instruction for Rescu2 - alhpa test</b></p>
+<p>&nbsp;&nbsp; Rescu2? : <a href="http://halab.mit.edu" target="blank">HALAB</a>에서 제가 요즘 진행중인 프로젝트입니다.</p>
+<hr>
+
+<p>1. <a href="http://www.mit.edu/~yalesong/halab/misc/jre-6u3-windows-i586-p-s.exe" target="blank">java 1.6 se</a>를 설치합니다.</p>
+<p>2. <a href="http://www.mit.edu/~yalesong/halab/.java.policy" target="blank">.java.policy</a> 를 c:\documents and settings\administrator에 카피합니다. <br>(마우스오른쪽버튼 - 다른 이름으로 대상저장)</p>
+<p>&nbsp;&nbsp;- 만약 administrator폴더가 없다면, 사용자명으로 된 폴더를 찾아서 설치하면 됩니다.<br> 
+&nbsp;&nbsp;- 제 컴퓨터의 경우 c:\documents and settings\yale 입니다)<br>
+&nbsp;&nbsp;- 카피를 하더라도, Hidden file이기 때문에 보이지 않습니다.</p>
+<p>3. <a href="http://www.mit.edu/~yalesong/halab/rescu2.html" target="blank">rescu2</a> 링크로 들어갑니다.</p>
+<p>4. 에러 레포팅</p>
+<p>&nbsp;&nbsp;- 엑박이 뜬다면, [마우스 오른쪽 버튼 - 콘솔열기] 해서 뜨는 창에 뿌려진 메세지를<br>
+&nbsp;&nbsp;&nbsp;&nbsp;메신저로 저에게 얘기해주시던가, yalesong@mit.edu로 보내주세요 :) <br></p>
+
+<p>참여 감사합니다!</p>
+<hr>
+Rescu2 Project<br>
+Human Automation Laboratory<br>
+Massachusetts Institute of Technology<br>
+

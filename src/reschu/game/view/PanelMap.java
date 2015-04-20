@@ -672,24 +672,28 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	    popMenu.removeAll();
 	    mnuItemSubmit = new JMenuItem("Submit");
 	    mnuItemCancel = new JMenuItem("Cancel");
+	    mnuItemSubmit.addActionListener(this);
+	    mnuItemCancel.addActionListener(this);
+	    popMenu.add(mnuItemSubmit);
+	    popMenu.add(mnuItemCancel);
+	    /*
 	    if (vehicleWPAddPrevMode)
 		mnuItemPrev = new JMenuItem("Prev");
 	    if (vehicleWPAddNextMode)
 		mnuItemNext = new JMenuItem("Next");
+	
 
-	    mnuItemSubmit.addActionListener(this);
-	    mnuItemCancel.addActionListener(this);
 	    if (vehicleWPAddPrevMode)
 		mnuItemPrev.addActionListener(this);
 	    if (vehicleWPAddNextMode)
 		mnuItemNext.addActionListener(this);
+	
 
-	    popMenu.add(mnuItemSubmit);
-	    popMenu.add(mnuItemCancel);
 	    if (vehicleWPAddPrevMode)
 		popMenu.add(mnuItemPrev);
 	    if (vehicleWPAddNextMode)
 		popMenu.add(mnuItemNext);
+		*/
 	} else if (WPRightClickedMode) { // When the user clicked a waypoint
 					 // with the mouse-RIGHT-button
 	    popMenu.removeAll();

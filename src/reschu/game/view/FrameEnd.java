@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.border.TitledBorder;
 
 import reschu.app.ScenarioConfig;
@@ -76,7 +77,10 @@ public class FrameEnd extends JFrame {
 	});
 	pnl.add(lblHAL);
 	pnl.add(btnStart);
+	this.setUndecorated(true);
+	getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 	add(pnl);
+	
     }
 
     public static void openWebpage(URI uri) {

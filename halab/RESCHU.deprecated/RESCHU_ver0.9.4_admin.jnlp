@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0+" codebase="http://www.mit.edu/~yalesong/halab/RESCHU" 
+		  href="RESCHU_ver0.9.4_admin.jnlp">
+  <information>
+    <title>RESCHU ver 0.9.4_admin</title>
+
+    <vendor>Massachusetts Institute of Technology</vendor>
+    <homepage href="http://www.mit.edu" />
+
+    <description>RESCHU</description>
+
+    <offline-allowed />
+  </information>
+
+  <security>
+  <all-permissions/>
+  </security>
+  
+  <resources>
+    <j2se version="1.6+" />
+    <jar href="dist/reschu_ver_0_9_4_admin.jar" /> 
+    <jar href="dist/lib/TimingFramework-0.53.jar" />
+    <jar href="dist/lib/mysql-connector-java-5.1.5-bin.jar" />
+    <jar href="dist/lib/TableLayout-bin-jdk1.5-2007-04-21.jar" />
+    <extension name="jogl" href="http://download.java.net/media/jogl/builds/archive/jsr-231-webstart-current/jogl.jnlp" />
+  </resources>
+  
+
+  <application-desc main-class="reschu_ver_0_9_4.AppMain" name="SwingSet" width="625" height="595" />
+  
+</jnlp>

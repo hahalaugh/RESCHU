@@ -419,6 +419,7 @@ public class Game implements Runnable, ActionListener {
 	if (this.automation == MyGame.AUTO_LOW) {
 	    this.initializePayload(this.maybePayloadList,
 		    MyURL.URL_MAYBE_TASK_BAD);
+	    System.out.println(MyURL.URL_MAYBE_TASK_BAD);
 	} else {
 	    this.initializePayload(this.maybePayloadList,
 		    MyURL.URL_MAYBE_TASK_GOOD);

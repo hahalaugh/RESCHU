@@ -289,7 +289,8 @@ public class CollisionMap {
 	Collections.sort(cis, new CollisionIntersectComparator());
 	CollisionZone zone = null;
 	if (cis.size() > 0) {
-	    CollisionIntersect fakeCI = cis.get(cis.size() - 1);
+	    //furthest cross to display
+	    CollisionIntersect fakeCI = cis.get(0);
 	    if (fakeCI != null) {
 		Polygon r = new Polygon();
 		Random rnd = new Random(5);

@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Human Automation Laboratory, Massachusetts Institute of Technology</title>
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAARWAf39v34yMNwdfIIwOK3RSZ8jjgaNIR1QfmXLZlI7UbC4UBmBSrrZDncEgbTw6MUIShLn36SwEIlg"
+      type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+	var map; 
+
+	function getParameter(name)
+	{
+	   var url = window.location.href;
+	   var paramsStart = url.indexOf("?");
+
+	   if(paramsStart != -1)
+	   {
+	      var paramString = url.substr(paramsStart + 1);
+	      var tokenStart = paramString.indexOf(name);
+
+	      if(tokenStart != -1)
+	      {
+	         paramToEnd = paramString.substr(tokenStart + name.length + 1);
+	         var delimiterPos = paramToEnd.indexOf("&");
+
+	         if(delimiterPos == -1){
+	            return paramToEnd;
+	         }
+	         else {
+	            return paramToEnd.substr(0, delimiterPos);
+	         }
+	      }
+	   }
+	}
+	
+    function load() 
+    {       
+	  map = new GMap2(document.getElementById("map"), G_SATELLITE_MAP); 
+	  var pos_x, pos_y; 
+	  var default_altitude, altitute;
+	  var zoom_level = 0;
+	  
+      if (GBrowserIsCompatible()) 
+      {		
+		default_altitude = 17;
+        pos_x = 42.360525;
+        pos_y = -71.093500;
+ 
+        if( getParameter('zoom_level') != "" ) 
+            zoom_level = getParameter('zoom_level'); 
+            
+        altitude = parseInt(default_altitude)+parseInt(zoom_level);
+        
+        if( getParameter('center_x')!="" && getParameter('center_y') != "") {
+            pos_x = getParameter('center_x');
+            pos_y = getParameter('center_y');
+        }        
+        <!--map.setCenter(new GLatLng(pos_x, pos_y), altitude);-->
+	map.setCenter(new GLatLng(29.891853, -89.801559), 13);
+        map.setMapType(G_HYBRID_MAP); 
+ 
+		GEvent.addListener(map, "click", function(overlay, point) { 			
+									window.status = map.fromContainerPixelToLatLng(point);	});			
+      }
+    }
+    
+    function zoomIn() { map.zoomIn(); } 
+    function zoomOut() { map.zoomOut(); }
+    function panBy(dx, dy) { map.panBy(new GSize(dx, dy)); } 
+    
+    </script>
+  </head>
+
+  <body onload="load()" onunload="GUnload()"> 
+      <div id="map" style="width: 1200px; height: 1000px"></div>    
+  </body>
+</html>

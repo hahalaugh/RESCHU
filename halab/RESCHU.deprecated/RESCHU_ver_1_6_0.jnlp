@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0+" codebase="http://www.mit.edu/~yalesong/halab/RESCHU" 
+		  href="RESCHU_ver_1_6_0.jnlp">
+  <information>
+    <title>RESCHU ver 1.6.0</title>
+
+    <vendor>Massachusetts Institute of Technology</vendor>
+    <homepage href="http://www.mit.edu" />
+
+    <description>RESCHU</description>
+    <description kind="short">RESCHU</description>
+    <icon href="HAL.png"/>
+    <icon kind="splash" href="reschu.jpg"/>
+
+    <offline-allowed />
+  </information>
+
+  <security>
+  <all-permissions/>
+  </security>
+  
+  <resources>
+    <j2se version="1.6+" />
+    <jar href="dist/reschu_ver_1_6_0.jar" /> 
+    <jar href="dist/lib/TimingFramework-0.53.jar" />
+    <jar href="dist/lib/mysql-connector-java-5.1.5-bin.jar" />
+    <jar href="dist/lib/TableLayout-bin-jdk1.5-2007-04-21.jar" />
+    <extension name="jogl" href="http://download.java.net/media/jogl/builds/archive/jsr-231-webstart-current/jogl.jnlp" />
+  </resources>
+  
+
+  <application-desc main-class="reschu.app.AppMain" name="SwingSet" width="625" height="595" />
+  
+</jnlp>
