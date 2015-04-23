@@ -7,6 +7,7 @@ public class MyURL {
     final static public String URL_DOMAIN = "file:///"
 	    + System.getProperty("user.dir") + "/halab/";
     final static public String URL_PREFIX = URL_DOMAIN + "img/";
+    final static public String URL_TUTORIAL = URL_DOMAIN + "tutorial/";
     final static public String URL_PAYLOAD = URL_DOMAIN + "img/payload/";
     final static public String URL_VEHICLE = URL_DOMAIN + "img/vehicle/";
     final static public String URL_PAYLOAD_INFO = URL_PAYLOAD + "info.dat";
@@ -15,6 +16,8 @@ public class MyURL {
 
     final static public String URL_TASK_SEQUENCE = URL_PAYLOAD
 	    + "TaskSequence.dat";
+    final static public String URL_TUTORIAL_TASK = URL_PAYLOAD
+	    + "TutorialTasks.dat";
     final static public String URL_HINTED_TASK = URL_PAYLOAD
 	    + "HintedTasks.dat";
     final static public String URL_MAYBE_TASK_GOOD = URL_PAYLOAD

@@ -10,12 +10,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import reschu.app.AppMain;
+import reschu.constants.MyURL;
 
 public abstract class TutorialModel {
     final static protected int HORIZONTAL = 0;
     final static protected int VERTICAL = 1;
     // protected String URL_PREFIX = Game.URL_PREFIX;
-    protected String URL_PREFIX = "http://web.mit.edu/~nehme/www/TutorialImages/";
+
     private int cur_state = 0;
     private int duration = 0;
     protected AppMain main;
@@ -62,7 +63,7 @@ public abstract class TutorialModel {
 	JLabel label = new JLabel();
 
 	try {
-	    imgIcon = new ImageIcon(new URL(URL_PREFIX + fileName));
+	    imgIcon = new ImageIcon(new URL(MyURL.URL_TUTORIAL + fileName));
 	    label = new JLabel(message, imgIcon, SwingConstants.LEFT);
 
 	    // label.setVerticalTextPosition(SwingConstants.BOTTOM);

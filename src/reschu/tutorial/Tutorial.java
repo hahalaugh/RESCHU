@@ -8,19 +8,26 @@ public class Tutorial {
     private TutorialModel scenario;
 
     public Tutorial(GUI_Listener lsnr, AppMain main) {
-	switch (Reschu._scenario) {
-	case 1:
-	    scenario = new Scenario1(lsnr, main);
-	    break;
-	case 2:
-	    scenario = new Scenario2(lsnr, main);
-	    break;
-	case 3:
-	    scenario = new Scenario3(lsnr, main);
-	    break;
-	case 4:
-	    scenario = new Scenario4(lsnr, main);
-	    break;
+
+	if (Reschu.tutorial()) {
+	    scenario = new ControlTutorial(lsnr, main);
+	} else if (Reschu.extraTutorial()) {
+	    switch (Reschu._scenario) {
+	    case 1:
+		scenario = new Scenario1(lsnr, main);
+		break;
+	    case 2:
+		scenario = new Scenario2(lsnr, main);
+		break;
+	    case 3:
+		scenario = new Scenario3(lsnr, main);
+		break;
+	    case 4:
+		scenario = new Scenario4(lsnr, main);
+		break;
+	    default:
+		break;
+	    }
 	}
     }
 

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -172,7 +173,7 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 
 	setPopup();
 	initTextRenenders();
-	// makeVibrateThread();
+	makeVibrateThread();
 
 	initializeTaskSequence();
 
@@ -207,27 +208,55 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 		false);
     }
 
-    /**
-     * A thread for making the screen vibrate
-     * 
-     * private void makeVibrateThread() { new Thread(new Runnable() { public
-     * void run() { while (true) { try { Thread.sleep(50); } catch
-     * (InterruptedException e) { }
-     * 
-     * x_dist += x_direction * ((float) rnd.nextGaussian() + 2); y_dist +=
-     * y_direction * ((float) rnd.nextGaussian() + 2);
-     * 
-     * if (x_direction > 0) { if (x_dist > x_limit) { x_limit = 6 * (float)
-     * rnd.nextInt(3); x_direction = -x_direction; } } else { if (x_dist <
-     * -x_limit) { x_limit = 6 * (float) rnd.nextInt(3); x_direction =
-     * -x_direction; } }
-     * 
-     * if (y_direction > 0) { if (y_dist > y_limit) { y_limit = 6 * (float)
-     * rnd.nextInt(3); y_direction = -y_direction; } } else { if (y_dist <
-     * -y_limit) { y_limit = 6 * (float) rnd.nextInt(3); y_direction =
-     * -y_direction; } } flash = (float) (flash + 0.1) % 2; // rotate_angle =
-     * rotate_angle + 1; // glCanvas.display(); } } }).start(); }
-     */
+    // A thread for making the screen vibrate
+    private Random rnd = new Random();
+    private float x_limit = (float) rnd.nextInt(10);
+    private float y_limit = (float) rnd.nextInt(10);
+    private int x_direction = 2;
+    private int y_direction = 2;
+
+    private void makeVibrateThread() {
+	new Thread(new Runnable() {
+	    public void run() {
+		while (true) {
+		    try {
+			Thread.sleep(50);
+		    } catch (InterruptedException e) {
+		    }
+
+		    x_dist += x_direction * ((float) rnd.nextGaussian() + 2);
+		    y_dist += y_direction * ((float) rnd.nextGaussian() + 2);
+
+		    if (x_direction > 0) {
+			if (x_dist > x_limit) {
+			    x_limit = 6 * (float) rnd.nextInt(3);
+			    x_direction = -x_direction;
+			}
+		    } else {
+			if (x_dist < -x_limit) {
+			    x_limit = 6 * (float) rnd.nextInt(3);
+			    x_direction = -x_direction;
+			}
+		    }
+
+		    if (y_direction > 0) {
+			if (y_dist > y_limit) {
+			    y_limit = 6 * (float) rnd.nextInt(3);
+			    y_direction = -y_direction;
+			}
+		    } else {
+			if (y_dist < -y_limit) {
+			    y_limit = 6 * (float) rnd.nextInt(3);
+			    y_direction = -y_direction;
+			}
+		    }
+		    flash = (float) (flash + 0.1) % 2;
+		    // rotate_angle = rotate_angle + 1;
+		    glCanvas.display();
+		}
+	    }
+	}).start();
+    }
 
     /**
      * Called by the drawable immediately after the OpenGL context is
@@ -248,6 +277,8 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
     /**
      * Called by the drawable to initiate OpenGL rendering by the client.
      */
+    int selectionBlink = 0;
+
     public synchronized void display(GLAutoDrawable drawable) {
 	if (GL_DEBUG)
 	    System.out.println("GL: display called");
@@ -445,7 +476,7 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	    Runnable runnable = new Runnable() {
 		public void run() {
 		    try {
-			Thread.sleep(2000);
+			Thread.sleep(500);
 			img = ImageIO.read(new URL(curPayload
 				.getClearFilename()));
 			updateAnimRenderer();
@@ -461,7 +492,6 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	    Thread thread = new Thread(runnable);
 	    thread.start();
 	}
-
     }
 
     public synchronized void glControlEnabled(boolean b) {
@@ -508,20 +538,25 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 
 	// get the current payload of this vehicle
 	// INCREMENTING CURSOR
-	switch (taskSequenceList.get(taskCursor++ % (taskSequenceList.size()))) {
-	case MyGame.TASK_HINT:
-	    curPayload = g.getHintedPayloadList().getPayload(type, mission);
-	    break;
-	case MyGame.TASK_MAYBE:
-	    curPayload = g.getMaybePayloadList().getPayload(type, mission);
-	    break;
-	case MyGame.TASK_NO_HINT:
-	    curPayload = g.getNoHintPayloadList().getPayload(type, mission);
-	    break;
-	default:
-	    break;
-	}
+	if (Reschu.tutorial() || Reschu.extraTutorial() || Reschu.train()) {
+	    curPayload = g.getTutorialPayloadList().getPayload(type, mission);
+	} else {
 
+	    switch (taskSequenceList.get(taskCursor++
+		    % (taskSequenceList.size()))) {
+	    case MyGame.TASK_HINT:
+		curPayload = g.getHintedPayloadList().getPayload(type, mission);
+		break;
+	    case MyGame.TASK_MAYBE:
+		curPayload = g.getMaybePayloadList().getPayload(type, mission);
+		break;
+	    case MyGame.TASK_NO_HINT:
+		curPayload = g.getNoHintPayloadList().getPayload(type, mission);
+		break;
+	    default:
+		break;
+	    }
+	}
 	Image_Loading = true;
 
 	new Thread(new Runnable() {
@@ -649,18 +684,28 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	     * (drawable.getWidth() * 1 / 10) + 20, drawable.getHeight() / 4 +
 	     * 75 + (int) (60 / 3) * zoom_count); trB20.endRendering();
 	     */
-	    if (rbtnClicked && curPayload.getTaskType() == MyGame.TASK_NO_HINT) {
-		drawSelectionRect(drawable, clickedX, clickedY);
-	    }
 
-	    if (preSelectionRect && curPayload != null
-		    && curPayload.getIsPreSelected() == 1) {
-		GL gl = drawable.getGL();
-		double[] co = new double[4];
-		proj(gl, curPayload.getLocation()[0],
-			curPayload.getLocation()[1], co);
-		drawSelectionRect(drawable, (int) co[0], (int) co[1]);
+	    if (this.selectionBlink > 50) {
+		if (rbtnClicked
+			&& curPayload.getTaskType() == MyGame.TASK_NO_HINT) {
+		    drawSelectionRect(drawable, clickedX, clickedY);
+		}
+
+		if (preSelectionRect && curPayload != null
+			&& curPayload.getIsPreSelected() == 1) {
+		    GL gl = drawable.getGL();
+		    double[] co = new double[4];
+		    proj(gl, curPayload.getLocation()[0],
+			    curPayload.getLocation()[1], co);
+		    drawSelectionRect(drawable, (int) co[0], (int) co[1]);
+
+		}
+
+		if (selectionBlink == 100) {
+		    selectionBlink = 0;
+		}
 	    }
+	    selectionBlink++;
 	}
     }
 
@@ -824,7 +869,7 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 	} else {
 	    correct = false;
 	}
-	
+
 	System.out.println(wcoord[0] + "," + wcoord[1]);
 	System.out.println("GL: setCorrect(" + correct + ") called");
     }

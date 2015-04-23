@@ -595,7 +595,7 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
     }
 
     private void paintText(Graphics2D g) {
-	if (Reschu.tutorial())
+	if (Reschu.tutorial() || Reschu.extraTutorial())
 	    paintTextOnTop(g, "Tutorial Mode", 40, new Color(1.0f, 1.0f, 1.0f,
 		    0.5f), 200, 50);
 	if (Reschu.train())
@@ -677,23 +677,17 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	    popMenu.add(mnuItemSubmit);
 	    popMenu.add(mnuItemCancel);
 	    /*
-	    if (vehicleWPAddPrevMode)
-		mnuItemPrev = new JMenuItem("Prev");
-	    if (vehicleWPAddNextMode)
-		mnuItemNext = new JMenuItem("Next");
-	
-
-	    if (vehicleWPAddPrevMode)
-		mnuItemPrev.addActionListener(this);
-	    if (vehicleWPAddNextMode)
-		mnuItemNext.addActionListener(this);
-	
-
-	    if (vehicleWPAddPrevMode)
-		popMenu.add(mnuItemPrev);
-	    if (vehicleWPAddNextMode)
-		popMenu.add(mnuItemNext);
-		*/
+	     * if (vehicleWPAddPrevMode) mnuItemPrev = new JMenuItem("Prev"); if
+	     * (vehicleWPAddNextMode) mnuItemNext = new JMenuItem("Next");
+	     * 
+	     * 
+	     * if (vehicleWPAddPrevMode) mnuItemPrev.addActionListener(this); if
+	     * (vehicleWPAddNextMode) mnuItemNext.addActionListener(this);
+	     * 
+	     * 
+	     * if (vehicleWPAddPrevMode) popMenu.add(mnuItemPrev); if
+	     * (vehicleWPAddNextMode) popMenu.add(mnuItemNext);
+	     */
 	} else if (WPRightClickedMode) { // When the user clicked a waypoint
 					 // with the mouse-RIGHT-button
 	    popMenu.removeAll();
@@ -1317,12 +1311,8 @@ class PaintComponent {
 
     public void paintRect(Graphics2D g, int x1, int y1, int x2, int y2,
 	    int SIZE_CELL, boolean isFaked) {
-	if (isFaked) {
-	    g.setColor(new Color(0, 255, 0, 65));
-	} else {
-	    g.setColor(new Color(255, 0, 0, 65));
-	}
 
+	g.setColor(new Color(255, 0, 0, 65));
 	g.fillRect(x1 * SIZE_CELL, y1 * SIZE_CELL, (x2 - x1) * SIZE_CELL,
 		(y2 - y1) * SIZE_CELL);
     }

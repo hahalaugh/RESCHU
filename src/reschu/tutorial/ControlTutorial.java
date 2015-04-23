@@ -30,7 +30,7 @@ public class ControlTutorial extends TutorialModel {
 	    // Intro: Explains the Purpose of the game
 	    setDuration(1);
 	    nextDialog();
-	    //lsnr.TutorialAddVehicle();
+	    // lsnr.TutorialAddVehicle();
 	    break;
 	case 2:
 	    System.out.println("2");
@@ -48,7 +48,8 @@ public class ControlTutorial extends TutorialModel {
 	    break;
 	case 4:
 	    System.out.println("4");
-	    JOptionPane.showMessageDialog(null, makePicPanel("changegoal1.png", ""));
+	    JOptionPane.showMessageDialog(null,
+		    makePicPanel("changegoal1.png", ""));
 	    // Step_3: Explains How to change a vehicle's destination
 	    setDuration(25);
 
@@ -62,7 +63,8 @@ public class ControlTutorial extends TutorialModel {
 	    break;
 	case 6:
 	    System.out.println("6");
-	    JOptionPane.showMessageDialog(null, makePicPanel("changegoal2.png", ""));
+	    JOptionPane.showMessageDialog(null,
+		    makePicPanel("changegoal2.png", ""));
 	    // Step_5: Explains how to move a waypoint
 	    setDuration(25);
 	    break;
@@ -85,7 +87,8 @@ public class ControlTutorial extends TutorialModel {
 	    break;
 	case 10:
 	    System.out.println("10");
-	    JOptionPane.showMessageDialog(null, makePicPanel("changewp1.png", ""));
+	    JOptionPane.showMessageDialog(null,
+		    makePicPanel("changewp1.png", ""));
 	    setDuration(25);
 	    break;
 	case 11:
@@ -123,23 +126,24 @@ public class ControlTutorial extends TutorialModel {
 	    break;
 	case 17:
 	    System.out.println("17");
-	    JOptionPane.showMessageDialog(null, makePicPanel("engagedetail.png", ""));
+	    JOptionPane.showMessageDialog(null,
+		    makePicPanel("engagedetail.png", ""));
 	    // Explain the Red payload task. Detailed description required.
-	    setDuration(2);
 	    nextDialog();
 	    break;
 	case 18:
 	    System.out.println("18");
-	    JOptionPane.showMessageDialog(null, makePicPanel("payload.png", ""));
+	    JOptionPane
+		    .showMessageDialog(null, makePicPanel("payload.png", ""));
 	    // Explain the payload operation. Detailed description required
-	    setDuration(2);
+	    // setDuration(2);
 	    nextDialog();
 	    break;
 	case 19:
-	    //check
+	    // check
 	    System.out.println("19");
 	    JOptionPane.showMessageDialog(null, makePicPanel("check.png", ""));
-	    setDuration(2);
+	    // setDuration(2);
 	    nextDialog();
 	    break;
 	case 20:
@@ -150,25 +154,45 @@ public class ControlTutorial extends TutorialModel {
 	    break;
 	case 21:
 	    System.out.println("21");
-	    JOptionPane.showMessageDialog(null, makePicPanel("yellow.png", ""));
-	    // Explain the Orange payload task.
-	    setDuration(500);
+	    JOptionPane.showMessageDialog(null,
+		    makePicPanel("submission.png", ""));
+	    // Explain the Green payload task
+	    nextDialog();
 	    break;
 	case 22:
 	    System.out.println("22");
-	    JOptionPane.showMessageDialog(null, makePicPanel("green.png", ""));
-	    // Explain the payload operation.
+	    JOptionPane.showMessageDialog(null, makePicPanel("wait.png", ""));
 	    setDuration(500);
 	    break;
 	case 23:
 	    System.out.println("23");
-	    JOptionPane.showMessageDialog(null, makePicPanel("submission.png", ""));
-	    // Explain the Green payload task
-	    setDuration(5);
-	    nextDialog();
+	    JOptionPane.showMessageDialog(null, makePicPanel("yellow.png", ""));
+	    // Explain the Orange payload task.
+	    setDuration(500);
 	    break;
 	case 24:
 	    System.out.println("24");
+	    JOptionPane.showMessageDialog(null, makePicPanel("wait.png", ""));
+	    setDuration(500);
+	    break;
+	case 25:
+	    System.out.println("25");
+	    JOptionPane.showMessageDialog(null, makePicPanel("green.png", ""));
+	    // Explain the payload operation.
+	    setDuration(500);
+	    break;
+	case 26:
+	    System.out.println("26");
+	    JOptionPane
+		    .showMessageDialog(
+			    null,
+			    "Good Job! You have finished the first part of tutorial. The program will restart"
+				    + "in 2 seconds for next part");
+	    setDuration(2);
+	    nextDialog();
+	    break;
+	case 27:
+	    System.out.println("27");
 	    // SESSION ENDED
 	    main.Restart_Reschu();
 	    break;
@@ -205,15 +229,13 @@ public class ControlTutorial extends TutorialModel {
 	case 16:
 	    checkCorrect(type == MyDB.PAYLOAD_ENGAGED && vIdx == 1);
 	    break;
-	case 20:
-	case 21:
+	case 22:
+	case 24:
 	    checkCorrect(type == MyDB.VEHICLE_ARRIVES_TO_TARGET && vIdx == 1);
 	    break;
-	case 22:
-	    checkCorrect((type == MyDB.PAYLOAD_FINISHED_CORRECT || type == MyDB.PAYLOAD_FINISHED_INCORRECT)
-		    && vIdx == 1);
-	    break;
+	case 20:
 	case 23:
+	case 25:
 	    checkCorrect((type == MyDB.PAYLOAD_FINISHED_CORRECT || type == MyDB.PAYLOAD_FINISHED_INCORRECT)
 		    && vIdx == 1);
 	    break;

@@ -35,7 +35,7 @@ public class Game implements Runnable, ActionListener {
     private double PROBABILITY_TARGET_VISIBILITY; // The higher, the more
     // visible target
 
-    private int nTargetAreaTotal = (Reschu.tutorial()) ? MyGame.nTARGET_AREA_TOTAL_TUTORIAL
+    private int nTargetAreaTotal = (Reschu.tutorial() || Reschu.extraTutorial()) ? MyGame.nTARGET_AREA_TOTAL_TUTORIAL
 	    : MyGame.nTARGET_AREA_TOTAL;
     final private int[] DB_BY_PIXEL = new int[] { 480, 480, 470, 470, 470, 470,
 	    460, 460, 450, 450, 450, 440, 440, 430, 430, 430, 420, 410, 410,
@@ -54,6 +54,9 @@ public class Game implements Runnable, ActionListener {
     private PayloadList hintedPayloadList;
     private PayloadList maybePayloadList;
     private PayloadList noHintPayloadList;
+
+    // Consists of three payload tasks on one image
+    private PayloadList tutorialPayloadList;
 
     public Map map;
     public int ex_pos_x, ex_pos_y;
@@ -119,10 +122,12 @@ public class Game implements Runnable, ActionListener {
 
 	// Juntao: Adjust random seed based on workload situation
 	int rndSeed = getSeedNum(scenario);
-	if (this.workload == MyGame.WORKLOAD_HIGH) {
-	    rndSeed += 1;
-	} else {
-	    rndSeed += 2;
+	if (!Reschu.train() && !Reschu.tutorial() && !Reschu.extraTutorial()) {
+	    if (this.workload == MyGame.WORKLOAD_HIGH) {
+		rndSeed += 1;
+	    } else {
+		rndSeed += 2;
+	    }
 	}
 	rnd.setSeed(rndSeed);
 
@@ -138,7 +143,9 @@ public class Game implements Runnable, ActionListener {
 	// @change-removed passing random object to PayloatList() 2008-04-01
 
 	boolean order = true;
-	if (this.automation == MyGame.AUTO_HIGH) {
+	if (Reschu.tutorial() || Reschu.extraTutorial() || Reschu.train()) {
+	    order = true;
+	} else if (this.workload == MyGame.WORKLOAD_HIGH) {
 	    order = true;
 	} else {
 	    order = false;
@@ -147,6 +154,7 @@ public class Game implements Runnable, ActionListener {
 	hintedPayloadList = new PayloadList(order);
 	maybePayloadList = new PayloadList(order);
 	noHintPayloadList = new PayloadList(order);
+	tutorialPayloadList = new PayloadList(order);
 
 	map = new Map(MySize.width, MySize.height, this, lsnr);
 	elapsedTime = 0;
@@ -162,7 +170,7 @@ public class Game implements Runnable, ActionListener {
 	setMap();
 
 	// normalize randomizer
-	if (Reschu.tutorial()) {
+	if (Reschu.tutorial() || Reschu.extraTutorial()) {
 	    for (int i = 0; i < 21; i++)
 		rnd.nextInt(1);
 	    map.setHazardArea(rnd);
@@ -189,7 +197,7 @@ public class Game implements Runnable, ActionListener {
     }
 
     private int getSeedNum(int scenario) {
-	if (Reschu.tutorial() || Reschu.train()) {
+	if (Reschu.tutorial() || Reschu.train() || Reschu.extraTutorial()) {
 	    switch (scenario) {
 	    case 1:
 	    case 2:
@@ -246,7 +254,12 @@ public class Game implements Runnable, ActionListener {
 			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
 			rnd, map, lsnr, this);
 
-		if (Reschu.expermient() || Reschu.train()) {
+		if (Reschu.extraTutorial()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
+		} else if (Reschu.expermient() || Reschu.train()) {
 		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
 			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
 				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
@@ -273,10 +286,16 @@ public class Game implements Runnable, ActionListener {
 		vehicle_list.addVehicle(1, Vehicle.TYPE_UAV, "Fire Scout A",
 			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
 			rnd, map, lsnr, this);
-		vehicle_list.addVehicle(2, Vehicle.TYPE_UAV, "Fire Scout B",
-			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
-			rnd, map, lsnr, this);
-		if (Reschu.expermient() || Reschu.train()) {
+		if (Reschu.extraTutorial()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
+		} else if (Reschu.expermient() || Reschu.train()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
 		    vehicle_list.addVehicle(3, Vehicle.TYPE_UAV,
 			    "Fire Scout C", Vehicle.PAYLOAD_ISR, speed
 				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
@@ -298,10 +317,16 @@ public class Game implements Runnable, ActionListener {
 		vehicle_list.addVehicle(1, Vehicle.TYPE_UAV, "Fire Scout A",
 			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
 			rnd, map, lsnr, this);
-		vehicle_list.addVehicle(2, Vehicle.TYPE_UAV, "Fire Scout B",
-			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
-			rnd, map, lsnr, this);
-		if (Reschu.expermient() || Reschu.train()) {
+		if (Reschu.extraTutorial()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
+		} else if (Reschu.expermient() || Reschu.train()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
 		    vehicle_list.addVehicle(3, Vehicle.TYPE_UAV,
 			    "Fire Scout C", Vehicle.PAYLOAD_ISR, speed
 				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
@@ -322,10 +347,16 @@ public class Game implements Runnable, ActionListener {
 		vehicle_list.addVehicle(1, Vehicle.TYPE_UAV, "Fire Scout A",
 			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
 			rnd, map, lsnr, this);
-		vehicle_list.addVehicle(2, Vehicle.TYPE_UAV, "Fire Scout B",
-			Vehicle.PAYLOAD_ISR, speed / MySpeed.SPEED_CONTROL,
-			rnd, map, lsnr, this);
-		if (Reschu.expermient() || Reschu.train()) {
+		if (Reschu.extraTutorial()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
+		} else if (Reschu.expermient() || Reschu.train()) {
+		    vehicle_list.addVehicle(2, Vehicle.TYPE_UAV,
+			    "Fire Scout B", Vehicle.PAYLOAD_ISR, speed
+				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
+			    this);
 		    vehicle_list.addVehicle(3, Vehicle.TYPE_UAV,
 			    "Fire Scout C", Vehicle.PAYLOAD_ISR, speed
 				    / MySpeed.SPEED_CONTROL, rnd, map, lsnr,
@@ -415,16 +446,25 @@ public class Game implements Runnable, ActionListener {
     }
 
     public void setPayload() {
-	this.initializePayload(this.hintedPayloadList, MyURL.URL_HINTED_TASK);
-	if (this.automation == MyGame.AUTO_LOW) {
-	    this.initializePayload(this.maybePayloadList,
-		    MyURL.URL_MAYBE_TASK_BAD);
-	    System.out.println(MyURL.URL_MAYBE_TASK_BAD);
+
+	if (Reschu.tutorial() || Reschu.extraTutorial()) {
+	    this.initializePayload(this.tutorialPayloadList,
+		    MyURL.URL_TUTORIAL_TASK);
 	} else {
-	    this.initializePayload(this.maybePayloadList,
-		    MyURL.URL_MAYBE_TASK_GOOD);
+	    this.initializePayload(this.hintedPayloadList,
+		    MyURL.URL_HINTED_TASK);
+	    if (this.automation == MyGame.AUTO_LOW) {
+		this.initializePayload(this.maybePayloadList,
+			MyURL.URL_MAYBE_TASK_BAD);
+		System.out.println(MyURL.URL_MAYBE_TASK_BAD);
+	    } else {
+		this.initializePayload(this.maybePayloadList,
+			MyURL.URL_MAYBE_TASK_GOOD);
+	    }
+	    this.initializePayload(this.noHintPayloadList,
+		    MyURL.URL_NO_HINT_TASK);
 	}
-	this.initializePayload(this.noHintPayloadList, MyURL.URL_NO_HINT_TASK);
+
     }
 
     private void setMap() {
@@ -465,6 +505,10 @@ public class Game implements Runnable, ActionListener {
 
     public VehicleList getVehicleList() {
 	return vehicle_list;
+    }
+
+    public PayloadList getTutorialPayloadList() {
+	return this.tutorialPayloadList;
     }
 
     public PayloadList getHintedPayloadList() {
@@ -657,7 +701,8 @@ public class Game implements Runnable, ActionListener {
 	BufferedImage capture;
 	try {
 	    capture = new Robot().createScreenCapture(screenRect);
-	    ImageIO.write(capture, "bmp", new File("screenShot"));
+	    ImageIO.write(capture, "bmp", new File(DataRecorder.Timestamp
+		    + "_screen.bmp"));
 	} catch (Exception ex) {
 	    JOptionPane.showConfirmDialog(null, "Screen shot failed");
 	} finally {
@@ -733,7 +778,7 @@ public class Game implements Runnable, ActionListener {
 	    MyColor.COLOR_VEHICLE_PENDING = new Color(228, 124, 155, 255);
 
 	// Update Hazard Area
-	int haUpdateSpeed = (Reschu.tutorial()) ? MySpeed.SPEED_CLOCK_HAZARD_AREA_UPDATE_TUTORIAL
+	int haUpdateSpeed = (Reschu.tutorial() || Reschu.extraTutorial()) ? MySpeed.SPEED_CLOCK_HAZARD_AREA_UPDATE_TUTORIAL
 		: MySpeed.SPEED_CLOCK_TARGET_AREA_UPDATE;
 	if (elapsedTime % haUpdateSpeed == 0) {
 	    map.delHazardArea(rnd, 1);

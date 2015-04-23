@@ -153,7 +153,7 @@ public class Map {
     }
 
     public void setHazardArea(Random rnd) {
-	int nHazard = (Reschu.tutorial()) ? MyGame.nHAZARD_AREA_TUTORIAL
+	int nHazard = (Reschu.tutorial() || Reschu.extraTutorial()) ? MyGame.nHAZARD_AREA_TUTORIAL
 		: MyGame.nHAZARD_AREA;
 	int nHazardNeed = nHazard - getListHazard().size();
 	int x, y;
@@ -228,7 +228,7 @@ public class Map {
     }
 
     public void setTargetArea(Random rnd) throws UserDefinedException {
-	int nTargetAreaLand = (Reschu.tutorial()) ? MyGame.nTARGET_AREA_LAND_TUTORIAL
+	int nTargetAreaLand = (Reschu.tutorial() || Reschu.extraTutorial()) ? MyGame.nTARGET_AREA_LAND_TUTORIAL
 		: MyGame.nTARGET_AREA_LAND;
 	int nLandTargetNeed = nTargetAreaLand - getTargetSize("LAND");
 	int nShoreTargetNeed = MyGame.nTARGET_AREA_SHORE
@@ -354,7 +354,7 @@ public class Map {
 
     // THIS IS TEMPORARY
     public void setTargetArea_TEMPORARY_FOR_TUTORIAL_BY_CARL(Random rnd) {
-	int nTargetAreaLand = (Reschu.tutorial()) ? MyGame.nTARGET_AREA_LAND_TUTORIAL
+	int nTargetAreaLand = (Reschu.tutorial() || Reschu.extraTutorial()) ? MyGame.nTARGET_AREA_LAND_TUTORIAL
 		: MyGame.nTARGET_AREA_LAND;
 	int nLandTargetNeed = nTargetAreaLand - getTargetSize("LAND");
 	int nShoreTargetNeed = MyGame.nTARGET_AREA_SHORE

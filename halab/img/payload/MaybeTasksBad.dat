@@ -1,8 +1,12 @@
 2# UAV# LAND# -120# -100# 	Find the word DAV painted on the ground# 									1#  	1# 		1 
 3# UAV# SHORE# -1203# -957# Find the boat in the river with the white roof#								1#  	1# 		1
-4# UAV# LAND# 270# 1080# Find the green truck#															1#  	1# 		1
+3# UAV# SHORE# 230# -1380# Find the triangle on the roof#												1#  	1# 		1
+3# UAV# SHORE# 1160# -1432# Find the fork of express way#												1#  	1# 		1
+4# UAV# LAND# 270# 1080# Find the train#																1#  	1# 		1
+4# UAV# LAND# -360# 1150# Find the rail-road crossing#													1#  	1# 		1
 5# UAV# SHORE# -270# -670# Find two blue containers close to each other#								1#  	1# 		1
 6# UAV# LAND# -267# 1472# Find the 3 blue containers sitting on their own#								1#  	1# 		1
+7# UAV# SHORE# 1140# 1100# Find the roof with three strips on it#										1#  	1# 		1
 7# UAV# SHORE# 1280# 860# Find the two blue oil tank close to each other#								1#  	1# 		1
 8# UAV# LAND# -270# -1350# Find the yellow van with a cargo amounted#									1#   	1# 		1
 9# UAV# SHORE# 1140# -270# Find the boat which looks like it has two wings on its sides#				1# 		1# 		1
@@ -10,24 +14,32 @@
 11# UAV# SHORE# -340# -200# Find the old-style fighter hiding in the forest#							1# 		1# 		1
 12# UAV# LAND# -970# -1250# Find the protection nets on the track fields#								1# 	 	1# 		1
 13# UAV# SHORE# -1134# 537# Find the yellow circle on the back of the tanker#							1# 	 	1# 		1
+14# UAV# LAND# -700# -1200# Find the green building close to the roller coaster#						1# 	 	1# 		1
 14# UAV# LAND# 430# 1400# Find the blue mark beside the roof of a parking building#						1# 	 	1# 		1
 15# UAV# SHORE# 809# 1293# Find the blue area on the back of the boat#									1# 		1# 		1
 16# UAV# LAND# -554#1240# Find the Blue Square on top of the building#									1# 		1# 		1
 17# UAV# SHORE# 213# 1387# Find the boat with the orange front#											1# 		1# 		1
+18# UAV# LAND# -740# -220# Find the entrance/exit of parking lot#										1# 	 	1# 		1
 18# UAV# LAND# 1270# 70# Find the yellow tower crane#													1# 	 	1# 		1
 19# UAV# SHORE# 150# -550# Find the white dome on the top of a red building#							1# 	 	1# 		1
 20# UAV# LAND# -50# -30# Find the fighter parking in the parking lot#									1# 	 	1# 		1
 21# UAV# LAND# -270# 50# Find the white car parking on the lawn#										1# 		1# 		1
+21# UAV# LAND# 1170# -50# Find the white fighter# 														1# 		1#		1
 22# UAV# LAND# 130# -330# Find a green car and black car parking together#								1# 		1# 		1
 23# UAV# LAND# -170# 580# Find the shot field#															1# 	 	1# 		1
-24# UAV# LAND# 960# -50# Find the 6 position in the clock#												1#  	1# 		1
+23# UAV# LAND# -1350# 400# Find the half-size tennis court#												1# 	 	1# 		1
+24# UAV# LAND# -500# -700# Find the roundabout#															1# 	 	1# 		1
+24# UAV# LAND# 160# -600# Find the biggest radar on the roof#											1#  	1# 		1
 34# UAV# SHORE# -480# 620# Find three containers that assembled in a V shape#							1#  	1# 		1
+34# UAV# SHORE# 0# -800# Find the bridge of the carrier#												1#  	1# 		1
 35# UAV# SHORE# 1403# 1215# Find the bright red car East of the building with the grey roof#			1# 	 	1# 		1
 36# UAV# SHORE# -700# -350# Find first two letters of DBBT in the front of the boat#					1# 	 	1# 		1
 37# UAV# LAND# -1257# 1028# Find the white car parked in the large parking lot#							1# 	 	1# 		1
+38# UAV# LAND# 300# 830# Find the entrance of the white building#										1# 		1# 		1
 38# UAV# LAND# -490# -250# Find the AC compressor on the roof#											1# 		1# 		1
+38# UAV# LAND# -950# -1080# Find the ventilator on the roof#											1# 		1# 		1
 39# UAV# LAND# 1447# -1151# Find the striped umbrella#													1# 	 	1# 		1
 40# UAV# LAND# -1370# 718# Find the tail of the pool that is shaped like a fish#						1# 		1# 		1
 41# UAV# LAND# -1414# 210# Find the "X"#																1# 	 	1# 		1
 42# UAV# LAND# -579# 143# Find the red car in the middle of the intersection#							1# 		1# 		1
-43# UAV# LAND# -750# 300# Find the north-east corner of the building#									1# 		1# 		1
+43# UAV# LAND# -810# 570# Find the plane with only one wing#											1# 		1# 		1

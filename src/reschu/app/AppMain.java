@@ -25,7 +25,7 @@ public class AppMain implements ActionListener {
     private JFrame _frmLogin;
     private JButton _btnStart;
     private JComboBox<String> _cmbBoxGameMode, _cmbBoxScenario,
-	    _cmbBoxProcedure, _cmbBoxAutomation;
+	    _cmbBoxWorkload, _cmbBoxAutomation;
     private Reschu reschu;
 
     /**
@@ -33,9 +33,17 @@ public class AppMain implements ActionListener {
      * mode.
      */
     public void Restart_Reschu() {
-	if (_gamemode == MyGameMode.TUTORIAL_MODE) {
+	
+	switch(_gamemode)
+	{
+	case MyGameMode.TUTORIAL_MODE:
+	    _gamemode = MyGameMode.EXTRA_TUTORIAL_MODE;
+	    break;
+	case MyGameMode.EXTRA_TUTORIAL_MODE:
 	    _gamemode = MyGameMode.TRAIN_MODE;
+	    break;
 	}
+
 	reschu.Game_End();
 	reschu.dispose();
 	reschu = null;
@@ -77,9 +85,9 @@ public class AppMain implements ActionListener {
 
 	String[] scenarios = { "Scenario 1", "Scenario 2", "Scenario 3",
 		"Scenario 4" };
-	String[] gamemodes = { "Tutorial", "Demo" };
-	String[] procedures = { "Low", "High" };
-	String[] automation = { "Low", "High" };
+	String[] gamemodes = { "Tutorial", "Experiment" };
+	String[] workloads = { "Low", "High" };
+	String[] automations = { "Low", "High" };
 
 	border = BorderFactory.createTitledBorder("");
 
@@ -95,9 +103,9 @@ public class AppMain implements ActionListener {
 	_cmbBoxGameMode.addActionListener(this);
 	_cmbBoxScenario = new JComboBox<String>(scenarios);
 	_cmbBoxScenario.addActionListener(this);
-	_cmbBoxProcedure = new JComboBox<String>(procedures);
-	_cmbBoxProcedure.addActionListener(this);
-	_cmbBoxAutomation = new JComboBox<String>(automation);
+	_cmbBoxWorkload = new JComboBox<String>(workloads);
+	_cmbBoxWorkload.addActionListener(this);
+	_cmbBoxAutomation = new JComboBox<String>(automations);
 	_cmbBoxAutomation.addActionListener(this);
 
 	try {
@@ -131,7 +139,7 @@ public class AppMain implements ActionListener {
 	pnlInside.add(lblScenario, "1,5");
 	pnlInside.add(_cmbBoxScenario, "3,5");
 	pnlInside.add(lblProcedure, "1,7");
-	pnlInside.add(_cmbBoxProcedure, "3,7");
+	pnlInside.add(_cmbBoxWorkload, "3,7");
 	pnlInside.add(lblAutomation, "1,9");
 	pnlInside.add(this._cmbBoxAutomation, "3,9");
 	pnlInside.add(_btnStart, "1,11, 3,11");
@@ -143,7 +151,7 @@ public class AppMain implements ActionListener {
 	pnl.add(pnlInside, "2,2");
 
 	this._cmbBoxAutomation.setEnabled(false);
-	this._cmbBoxProcedure.setEnabled(false);
+	this._cmbBoxWorkload.setEnabled(false);
 
 	_frmLogin.setSize(450, 500);
     }
@@ -155,12 +163,12 @@ public class AppMain implements ActionListener {
 	    case 0:
 		_gamemode = MyGameMode.TUTORIAL_MODE;
 		this._cmbBoxAutomation.setEnabled(false);
-		this._cmbBoxProcedure.setEnabled(false);
+		this._cmbBoxWorkload.setEnabled(false);
 		break;
 	    case 1:
 		_gamemode = MyGameMode.ADMINISTRATOR_MODE;
 		this._cmbBoxAutomation.setEnabled(true);
-		this._cmbBoxProcedure.setEnabled(true);
+		this._cmbBoxWorkload.setEnabled(true);
 		break;
 	    }
 	}
@@ -168,7 +176,7 @@ public class AppMain implements ActionListener {
 	    if (_gamemode == MyGameMode.TUTORIAL_MODE) {
 		_workload = 1;
 	    } else {
-		_workload = _cmbBoxProcedure.getSelectedIndex();
+		_workload = _cmbBoxWorkload.getSelectedIndex();
 	    }
 
 	    _automation = _cmbBoxAutomation.getSelectedIndex();

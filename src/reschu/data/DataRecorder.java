@@ -12,7 +12,8 @@ import reschu.game.model.Vehicle;
 import reschu.game.model.VehicleList;
 
 public class DataRecorder {
-    private final static String Path = (new Date()).getTime() + "_data.txt";
+    public final static long Timestamp = new Date().getTime();
+    private final static String Path = Timestamp + "_data.txt";
 
     public enum SystemAction {
 	Highlight, PopUpQuestion, GainScore, LoseScore

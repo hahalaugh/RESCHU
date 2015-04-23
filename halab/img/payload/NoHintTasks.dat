@@ -1,10 +1,14 @@
 5# UAV# SHORE# 1013# 791# Find the red heliport pad#											0#		2#		0
 7# UAV# SHORE# -861# -155# Find the orange helipad#												0#		2#		0
-8# UAV# LAND# 489# -908# Find the camouflaged truck#											0#		2#		0	
+8# UAV# LAND# 489# -908# Find the camouflaged truck#											0#		2#		0
+9# UAV# SHORE# -1180# -820# Find the orange car#												0# 		2# 		0	
 10# UAV# LAND# -837# -1088# Find the airport runway near a black building#						0#		2#		0
 12# UAV# LAND# -1128# 109# Find the red container located on one of the track fields#			0#		2#		0
 14# UAV# LAND# 1058# 631# Find the tennis court that is partly covered by trees#				0#		2#		0
 19# UAV# SHORE# 1012# 374# Find what looks like a swimming pool at the end of the long pier#	0#		2#		0
 20# UAV# LAND# 1003# 1071# Find the red object on a roof#										0#		2#		0
 23# UAV# LAND# -1077# 1068# Find the letter BUFFALO by the field#								0#		2#		0
+24# UAV# LAND# -50# 1520# Find the swimming pool#												0# 	 	2# 		0
+35# UAV# SHORE# 1360# 810# Find the red car#													0# 	 	2# 		0
+38# UAV# LAND# 1160# 1200# Find four white objects on the roof#									0# 		2# 		0
 38# UAV# LAND# -990# -500# Find the swimming pool#												0#		2#		2

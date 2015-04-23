@@ -67,6 +67,12 @@ public class Reschu extends JFrame implements GUI_Listener {
 	return _gamemode == MyGameMode.TUTORIAL_MODE;
     }
 
+    //Juntao: 2-phase tutorial to make further explaination.
+    public static boolean extraTutorial()
+    {
+	return _gamemode == MyGameMode.EXTRA_TUTORIAL_MODE;
+    }
+    
     /** Training Mode? */
     public static boolean train() {
 	return _gamemode == MyGameMode.TRAIN_MODE;
@@ -100,9 +106,17 @@ public class Reschu extends JFrame implements GUI_Listener {
 	_database = database;
 	_workload = workload;
 	_automation = automation;
+
+	/*
+	if(_gamemode == MyGameMode.TUTORIAL_MODE && _scenario != 1)
+	{
+	    _gamemode = MyGameMode.EXTRA_TUTORIAL_MODE;
+	}
+	*/
+	
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-	if (tutorial())
+	if (tutorial() || extraTutorial())
 	    tutorial = new Tutorial(this, main);
 	if (train()) {
 	    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -224,7 +238,7 @@ public class Reschu extends JFrame implements GUI_Listener {
     }
 
     public void Clock_Tick(int milliseconds) {
-	if (tutorial())
+	if (tutorial() || extraTutorial())
 	    if (milliseconds % 1000 == 0)
 		tutorial.tick();
 	pnlTimeLine.refresh(milliseconds);
@@ -464,7 +478,7 @@ public class Reschu extends JFrame implements GUI_Listener {
     // DB
     private void Write(int invoker, int type, int vIdx, String log, int X, int Y) {
 	// DB is not used in this demo version. So deleted.
-	if (tutorial()) {
+	if (tutorial() || extraTutorial()) {
 	    String target = (log.indexOf("[") >= 0) ? log.substring(
 		    log.indexOf("[") + 1, log.indexOf("[") + 2) : "";
 	    tutorial.event(type, vIdx, target);

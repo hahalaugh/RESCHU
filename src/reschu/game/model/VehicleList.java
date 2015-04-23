@@ -4,6 +4,7 @@ import java.util.*;
 
 import reschu.constants.*;
 import reschu.game.controller.GUI_Listener;
+import reschu.game.controller.Reschu;
 
 public class VehicleList {
     private Game g;
@@ -51,8 +52,24 @@ public class VehicleList {
 	    GUI_Listener l, Game g) throws UserDefinedException {
 	if (this.hasVehicle(v_name))
 	    throw new UserDefinedException(v_name + " already exists.");
-	int x = rnd.nextInt(MySize.width);
-	int y = rnd.nextInt(MySize.height);
+
+	int x = 0;
+	int y = 0;
+
+	if (Reschu.extraTutorial()) {
+	    if (idx == 1) {
+		x = 50;
+		y = 300;
+	    }
+
+	    if (idx == 2) {
+		x = 20;
+		y = 250;
+	    }
+	} else {
+	    x = rnd.nextInt(MySize.width);
+	    y = rnd.nextInt(MySize.height);
+	}
 
 	if (v_type == Vehicle.TYPE_UUV) {
 	    UUV v_uuv = new UUV(m, g);
