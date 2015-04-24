@@ -71,6 +71,8 @@ public abstract class TutorialModel {
 	    label.setUI(new MultiLineLabelUI());
 	    label.setBorder(new EtchedBorder());
 	} catch (MalformedURLException urle) {
+	    System.out.println(urle.getMessage());
+	    
 	}
 
 	return label;

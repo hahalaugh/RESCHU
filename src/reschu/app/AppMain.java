@@ -42,6 +42,8 @@ public class AppMain implements ActionListener {
 	case MyGameMode.EXTRA_TUTORIAL_MODE:
 	    _gamemode = MyGameMode.TRAIN_MODE;
 	    break;
+	default:
+	    break;
 	}
 
 	reschu.Game_End();

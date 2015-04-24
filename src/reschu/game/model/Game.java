@@ -447,7 +447,7 @@ public class Game implements Runnable, ActionListener {
 
     public void setPayload() {
 
-	if (Reschu.tutorial() || Reschu.extraTutorial()) {
+	if (Reschu.tutorial() || Reschu.extraTutorial() || Reschu.train()) {
 	    this.initializePayload(this.tutorialPayloadList,
 		    MyURL.URL_TUTORIAL_TASK);
 	} else {

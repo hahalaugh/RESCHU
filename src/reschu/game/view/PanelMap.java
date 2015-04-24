@@ -166,10 +166,25 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
     private final int vHeight = MySize.SIZE_VEHICLE_HEIGHT_PXL;
     private final int targetsize = MySize.SIZE_TARGET_PXL;
 
-    private byte[][] collisionMap;
-    private ArrayList<CollisionZone> collisionZones;
+    private static byte[][] collisionMap;
+    public static ArrayList<CollisionZone> collisionZones;
     public ArrayList<CollisionZone> fakeCollisionZones;
 
+    public static int GetVHCollisionCount()
+    {
+	int count = 0;
+	for(int i = 0; i < collisionMap.length; i++)
+	{
+	    for(int j = 0; j < collisionMap[0].length; j++)
+	    {
+		if(collisionMap[i][j] == CollisionMap.HAZARD_COLLISION)
+		{
+		    count++;
+		}
+	    }
+	}
+	return count;
+    }
     private synchronized Vehicle getV() {
 	return selectedVehicle;
     }

@@ -67,12 +67,11 @@ public class Reschu extends JFrame implements GUI_Listener {
 	return _gamemode == MyGameMode.TUTORIAL_MODE;
     }
 
-    //Juntao: 2-phase tutorial to make further explaination.
-    public static boolean extraTutorial()
-    {
+    // Juntao: 2-phase tutorial to make further explaination.
+    public static boolean extraTutorial() {
 	return _gamemode == MyGameMode.EXTRA_TUTORIAL_MODE;
     }
-    
+
     /** Training Mode? */
     public static boolean train() {
 	return _gamemode == MyGameMode.TRAIN_MODE;
@@ -107,13 +106,6 @@ public class Reschu extends JFrame implements GUI_Listener {
 	_workload = workload;
 	_automation = automation;
 
-	/*
-	if(_gamemode == MyGameMode.TUTORIAL_MODE && _scenario != 1)
-	{
-	    _gamemode = MyGameMode.EXTRA_TUTORIAL_MODE;
-	}
-	*/
-	
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	if (tutorial() || extraTutorial())
@@ -129,11 +121,6 @@ public class Reschu extends JFrame implements GUI_Listener {
 					null,
 					"Congratulations! You are now ready to proceed to the main experiment (10 mins in length).",
 					"Message", 1);
-			JOptionPane
-				.showMessageDialog(
-					null,
-					"Please follow the appropriate link in on our website.",
-					"Message", 1);
 		    }
 		}
 	    });
@@ -145,9 +132,9 @@ public class Reschu extends JFrame implements GUI_Listener {
 
     private void initComponents() {
 	double sizeMain[][] = {
-		{ TableLayout.FILL, 440, 5, 820, TableLayout.FILL },
+		{ TableLayout.FILL, 480, 5, 820, TableLayout.FILL },
 		{ 370, 150, 220, 170, 30 } };
-	double sizePayload[][] = { { TableLayout.FILL, 0.1 },
+	double sizePayload[][] = { { TableLayout.FILL, 0.175 },
 		{ TableLayout.FILL } };
 	double sizeMap[][] = { { TableLayout.FILL }, { TableLayout.FILL } };
 
@@ -482,7 +469,9 @@ public class Reschu extends JFrame implements GUI_Listener {
 	    String target = (log.indexOf("[") >= 0) ? log.substring(
 		    log.indexOf("[") + 1, log.indexOf("[") + 2) : "";
 	    tutorial.event(type, vIdx, target);
-	} else {
+	}
+	
+	if (Reschu.expermient()) {
 	    DataRecorder.Write("Vehicle: " + vIdx + " " + log + " " + X + ","
 		    + Y);
 	}

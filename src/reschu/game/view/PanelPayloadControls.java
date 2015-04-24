@@ -27,59 +27,9 @@ public class PanelPayloadControls extends JPanel implements ActionListener {
     public PanelPayloadControls(GUI_Listener e, String strTitle, double o) {
 	origin_time = o;
 	String url_prefix = MyURL.URL_PREFIX;
-
-	// try { urlImgUp = new URL(url_prefix+"pan_up.gif");
-	// btnUp = new JButton(new ImageIcon(urlImgUp));
-	// } catch (MalformedURLException urle) {
-	// btnUp = new JButton("UP");}
-	// try {
-	// urlImgDown = new URL(url_prefix+"pan_down.gif");
-	// btnDown = new JButton(new ImageIcon(urlImgDown));
-	// } catch (MalformedURLException urle) {
-	// btnDown = new JButton("DOWN");}
-	// try {
-	// urlImgCW = new URL(url_prefix+"pan_right.gif");
-	// btnCW = new JButton(new ImageIcon(urlImgCW));
-	// } catch (MalformedURLException urle) {
-	// btnCW = new JButton("CW");}
-	// try {
-	// urlImgCCW = new URL(url_prefix+"pan_left.gif");
-	// btnCCW = new JButton(new ImageIcon(urlImgCCW));
-	// } catch (MalformedURLException urle) {
-	// btnCCW = new JButton("CCW");}
-
-	try {
-	    btnCheck = new JButton();
-	    btnCheck.setToolTipText("Check");
-	    urlImgCheck = new URL(url_prefix + "CHECK.png");
-	    Image img = new ImageIcon(urlImgCheck).getImage();
-	    btnCheck.setIcon(new ImageIcon(img.getScaledInstance(37, 15,
-		    java.awt.Image.SCALE_SMOOTH)));
-
-	} catch (Exception urle) {
-	    // System.out.println(urle.getMessage());
-	    btnCheck = new JButton("+");
-	}
-	try {
-	    urlImgCancel = new URL(url_prefix + "SAFE.png");
-	    btnSafe = new JButton();
-	    btnSafe.setToolTipText("Safe");
-	    Image img = new ImageIcon(urlImgCancel).getImage();
-	    btnSafe.setIcon(new ImageIcon(img.getScaledInstance(37, 15,
-		    java.awt.Image.SCALE_SMOOTH)));
-	} catch (Exception urle) {
-	    btnSafe = new JButton("-");
-	}
-	try {
-	    urlImageAttack = new URL(url_prefix + "HIT.png");
-	    btnHit = new JButton();
-	    btnHit.setToolTipText("Hit");
-	    Image img = new ImageIcon(urlImageAttack).getImage();
-	    btnHit.setIcon(new ImageIcon(img.getScaledInstance(37, 15,
-		    java.awt.Image.SCALE_SMOOTH)));
-	} catch (Exception urle) {
-	    btnHit = new JButton("@");
-	}
+	btnCheck = new JButton("CHECK");
+	btnHit = new JButton("HIT");
+	btnSafe = new JButton("SAFE");
 
 	btnSubmit = new JButton("OK");
 	btnSubmit.setEnabled(false);

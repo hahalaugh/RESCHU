@@ -28,14 +28,12 @@ public class Scenario1 extends TutorialModel {
 	    JOptionPane.showMessageDialog(null, makePicPanel("1.1.png", ""));
 	    // Intro: Explains the Purpose of the game
 	    setDuration(30);
-	    nextDialog();
 	    break;
 	case 2:
 	    System.out.println("2");
 	    JOptionPane.showMessageDialog(null, makePicPanel("1.2.png", ""));
 	    // Step_2: Explains the Interface Elements
 	    setDuration(30);
-	    nextDialog();
 	    break;
 	case 3:
 	    System.out.println("3");
@@ -46,7 +44,7 @@ public class Scenario1 extends TutorialModel {
 	    break;
 	case 4:
 	    System.out.println("4");
-	    JOptionPane.showMessageDialog(null, "Good Job!You have finished the second part of tutorial. The program will restart"
+	    JOptionPane.showMessageDialog(null, "Good Job! You have finished the second part of tutorial. The program will restart"
 	    	+ "in 2 seconds for next part");
 	    setDuration(2);
 	    nextDialog();

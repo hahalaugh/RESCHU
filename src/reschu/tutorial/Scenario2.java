@@ -28,14 +28,12 @@ public class Scenario2 extends TutorialModel {
 	    JOptionPane.showMessageDialog(null, makePicPanel("2.1.png", ""));
 	    // Intro: Explains the Purpose of the game
 	    setDuration(30);
-	    nextDialog();
 	    break;
 	case 2:
 	    System.out.println("2");
 	    JOptionPane.showMessageDialog(null, makePicPanel("2.2.png", ""));
 	    // Step_2: Explains the Interface Elements
-	    setDuration(1);
-	    nextDialog();
+	    setDuration(30);
 	    break;
 	case 3:
 	    System.out.println("3");
@@ -46,8 +44,11 @@ public class Scenario2 extends TutorialModel {
 	    break;
 	case 4:
 	    System.out.println("4");
-	    JOptionPane.showMessageDialog(null, "Good Job!You have finished the second part of tutorial. The program will restart"
-	    	+ "in 2 seconds for next part");
+	    JOptionPane
+		    .showMessageDialog(
+			    null,
+			    "Good Job! You have finished the second part of tutorial. The program will restart"
+				    + "in 2 seconds for next part");
 	    setDuration(2);
 	    nextDialog();
 	    break;
@@ -65,6 +66,9 @@ public class Scenario2 extends TutorialModel {
 	switch (getState()) {
 	case 1:
 	    checkCorrect(type == MyDB.AUTOMATION_APPLICATION_FROM_CONTROL_PANEL);
+	    break;
+	case 2:
+	    checkCorrect(type == MyDB.WP_ADD_END);
 	    break;
 	default:
 	    break;

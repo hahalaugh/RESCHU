@@ -881,6 +881,13 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
     public void checkCorrect(int selection) {
 	// Only when expecting result is not reassign, check correct in
 	// different logic
+
+	if (curPayload.getExpectingAction() == MyGame.EXPECTING_RESIGN) {
+	    if (selection == MyGame.SAFE_OPTION) {
+		correct = false;
+	    }
+	}
+
 	if (curPayload.getExpectingAction() != MyGame.EXPECTING_RESIGN) {
 	    correct = (selection == curPayload.getExpectingAction());
 	}

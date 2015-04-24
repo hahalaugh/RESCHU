@@ -58,13 +58,13 @@ public class VehicleList {
 
 	if (Reschu.extraTutorial()) {
 	    if (idx == 1) {
-		x = 50;
-		y = 300;
+		x = 258;
+		y = 172;
 	    }
 
 	    if (idx == 2) {
-		x = 20;
-		y = 250;
+		x = 200;
+		y = 50;
 	    }
 	} else {
 	    x = rnd.nextInt(MySize.width);
