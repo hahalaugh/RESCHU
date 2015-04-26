@@ -8,7 +8,13 @@ import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -391,78 +397,101 @@ public class Game implements Runnable, ActionListener {
 	String vec_type, mis_type, stmt, isPreS, autoLevel, result;
 	int[] loc;
 
-	FileReader fr = new FileReader(URL);
-	String aLine = "";
-	fr.openFile();
-
-	while ((aLine = fr.readLineByLine()) != null) {
-	    lineNum++;
-	    String[] a = aLine.split("#");
-	    if (a.length == 9) {
-		if (!FileReader.isNumber(a[0].trim())
-			|| !FileReader.isNumber(a[3].trim())
-			|| !FileReader.isNumber(a[4].trim())
-			|| !FileReader.isNumber(a[6].trim())
-			|| !FileReader.isNumber(a[7].trim())
-			|| !FileReader.isNumber(a[8].trim())) {
-		    System.err
-			    .println("ERROR: Failed to load payload at line ("
-				    + lineNum + "), check the numbers.");
-		    continue;
-		}
-		if (!Vehicle.isVehicleType(a[1].trim())) {
-		    System.err
-			    .println("ERROR: Failed to load payload at line ("
-				    + lineNum + "), check the vehicle type ("
-				    + a[1].trim() + ").");
-		    continue;
-		}
-		if (!Target.isTargetType(a[2].trim())) {
-		    System.err
-			    .println("ERROR: Failed to load payload at line ("
-				    + lineNum + "), check the mission type ("
-				    + a[2].trim() + ").");
-		    continue;
-		}
-
-		idx = Integer.parseInt(a[0].trim());
-		vec_type = a[1].trim();
-		mis_type = a[2].trim();
-		loc = new int[] { Integer.parseInt(a[3].trim()),
-			Integer.parseInt(a[4].trim()) };
-		stmt = a[5].trim();
-		isPreS = a[6].trim();
-		autoLevel = a[7].trim();
-		result = a[8].trim();
-		list.addPayload(idx, vec_type, mis_type, loc, stmt,
-			Integer.parseInt(isPreS), Integer.parseInt(autoLevel),
-			Integer.parseInt(result));
-	    } else {
-		System.err.println("ERROR: Failed to load payload at line ("
-			+ lineNum + "), check the delimeter.");
-	    }
+	
+	BufferedReader br = null;
+	try {
+	    br = new BufferedReader(new InputStreamReader(new FileInputStream(URL), "UTF8"));
+	} catch (UnsupportedEncodingException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	} catch (FileNotFoundException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
 	}
-	fr.closeFile();
+	String aLine = "";
+
+	try {
+	    while ((aLine = br.readLine()) != null) {
+	        lineNum++;
+	        String[] a = aLine.split("#");
+	        if (a.length == 9) {
+	    	if (!FileReader.isNumber(a[0].trim())
+	    		|| !FileReader.isNumber(a[3].trim())
+	    		|| !FileReader.isNumber(a[4].trim())
+	    		|| !FileReader.isNumber(a[6].trim())
+	    		|| !FileReader.isNumber(a[7].trim())
+	    		|| !FileReader.isNumber(a[8].trim())) {
+	    	    System.err
+	    		    .println("ERROR: Failed to load payload at line ("
+	    			    + lineNum + "), check the numbers.");
+	    	    continue;
+	    	}
+	    	if (!Vehicle.isVehicleType(a[1].trim())) {
+	    	    System.err
+	    		    .println("ERROR: Failed to load payload at line ("
+	    			    + lineNum + "), check the vehicle type ("
+	    			    + a[1].trim() + ").");
+	    	    continue;
+	    	}
+	    	if (!Target.isTargetType(a[2].trim())) {
+	    	    System.err
+	    		    .println("ERROR: Failed to load payload at line ("
+	    			    + lineNum + "), check the mission type ("
+	    			    + a[2].trim() + ").");
+	    	    continue;
+	    	}
+
+	    	idx = Integer.parseInt(a[0].trim());
+	    	vec_type = a[1].trim();
+	    	mis_type = a[2].trim();
+	    	loc = new int[] { Integer.parseInt(a[3].trim()),
+	    		Integer.parseInt(a[4].trim()) };
+	    	stmt = a[5].trim();
+	    	isPreS = a[6].trim();
+	    	autoLevel = a[7].trim();
+	    	result = a[8].trim();
+	    	list.addPayload(idx, vec_type, mis_type, loc, stmt,
+	    		Integer.parseInt(isPreS), Integer.parseInt(autoLevel),
+	    		Integer.parseInt(result));
+	        } else {
+	    	System.err.println("ERROR: Failed to load payload at line ("
+	    		+ lineNum + "), check the delimeter.");
+	        }
+	    }
+	} catch (NumberFormatException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	
+	try {
+	    br.close();
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
     public void setPayload() {
 
 	if (Reschu.tutorial() || Reschu.extraTutorial() || Reschu.train()) {
 	    this.initializePayload(this.tutorialPayloadList,
-		    MyURL.URL_TUTORIAL_TASK);
+		    MyURL.LOCAL_TUTORIAL_TASK);
 	} else {
 	    this.initializePayload(this.hintedPayloadList,
-		    MyURL.URL_HINTED_TASK);
+		    MyURL.LOCAL_HINTED_TASK);
 	    if (this.automation == MyGame.AUTO_LOW) {
 		this.initializePayload(this.maybePayloadList,
-			MyURL.URL_MAYBE_TASK_BAD);
+			MyURL.LOCAL_MAYBE_TASK_BAD);
 		System.out.println(MyURL.URL_MAYBE_TASK_BAD);
 	    } else {
 		this.initializePayload(this.maybePayloadList,
-			MyURL.URL_MAYBE_TASK_GOOD);
+			MyURL.LOCAL_MAYBE_TASK_GOOD);
 	    }
 	    this.initializePayload(this.noHintPayloadList,
-		    MyURL.URL_NO_HINT_TASK);
+		    MyURL.LOCAL_NO_HINT_TASK);
 	}
 
     }

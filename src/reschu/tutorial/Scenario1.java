@@ -44,8 +44,11 @@ public class Scenario1 extends TutorialModel {
 	    break;
 	case 4:
 	    System.out.println("4");
-	    JOptionPane.showMessageDialog(null, "Good Job! You have finished the second part of tutorial. The program will restart"
-	    	+ "in 2 seconds for next part");
+	    JOptionPane
+		    .showMessageDialog(
+			    null,
+			    "Good Job! You have finished the second part of tutorial. The program will restart"
+				    + "in 2 seconds for next part");
 	    setDuration(2);
 	    nextDialog();
 	    break;

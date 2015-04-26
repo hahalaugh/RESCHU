@@ -170,21 +170,18 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
     public static ArrayList<CollisionZone> collisionZones;
     public ArrayList<CollisionZone> fakeCollisionZones;
 
-    public static int GetVHCollisionCount()
-    {
+    public static int GetVHCollisionCount() {
 	int count = 0;
-	for(int i = 0; i < collisionMap.length; i++)
-	{
-	    for(int j = 0; j < collisionMap[0].length; j++)
-	    {
-		if(collisionMap[i][j] == CollisionMap.HAZARD_COLLISION)
-		{
+	for (int i = 0; i < collisionMap.length; i++) {
+	    for (int j = 0; j < collisionMap[0].length; j++) {
+		if (collisionMap[i][j] == CollisionMap.HAZARD_COLLISION) {
 		    count++;
 		}
 	    }
 	}
 	return count;
     }
+
     private synchronized Vehicle getV() {
 	return selectedVehicle;
     }

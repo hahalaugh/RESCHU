@@ -22,8 +22,8 @@ public class PayloadList {
 
     public void addPayload(int idx, String vType, String tType, int[] loc,
 	    String stmt, int isPreS, int al, int isTE) {
-	payload_list.add(new Payload(idx, loc, vType, tType, stmt, isPreS,
-		al, isTE));
+	payload_list.add(new Payload(idx, loc, vType, tType, stmt, isPreS, al,
+		isTE));
     }
 
     public Payload getPayload(String vType, String tType) {

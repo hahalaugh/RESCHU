@@ -80,7 +80,7 @@ public class FrameEnd extends JFrame {
 	this.setUndecorated(true);
 	getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 	add(pnl);
-	
+
     }
 
     public static void openWebpage(URI uri) {

@@ -33,9 +33,8 @@ public class AppMain implements ActionListener {
      * mode.
      */
     public void Restart_Reschu() {
-	
-	switch(_gamemode)
-	{
+
+	switch (_gamemode) {
 	case MyGameMode.TUTORIAL_MODE:
 	    _gamemode = MyGameMode.EXTRA_TUTORIAL_MODE;
 	    break;

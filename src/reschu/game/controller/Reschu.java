@@ -470,7 +470,7 @@ public class Reschu extends JFrame implements GUI_Listener {
 		    log.indexOf("[") + 1, log.indexOf("[") + 2) : "";
 	    tutorial.event(type, vIdx, target);
 	}
-	
+
 	if (Reschu.expermient()) {
 	    DataRecorder.Write("Vehicle: " + vIdx + " " + log + " " + X + ","
 		    + Y);
