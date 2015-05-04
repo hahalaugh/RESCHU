@@ -87,15 +87,15 @@ public class AppMain implements ActionListener {
 	String[] scenarios = { "Scenario 1", "Scenario 2", "Scenario 3",
 		"Scenario 4" };
 	String[] gamemodes = { "Tutorial", "Experiment" };
-	String[] workloads = { "Low", "High" };
-	String[] automations = { "Low", "High" };
+	String[] workloads = { "1", "2" };
+	String[] automations = { "1", "2" };
 
 	border = BorderFactory.createTitledBorder("");
 
 	lblHAL = new JLabel();
 	lblGameMode = new JLabel("Mode");
 	lblScenario = new JLabel("Scenario");
-	lblProcedure = new JLabel("Workload");
+	lblProcedure = new JLabel("Load");
 	lblAutomation = new JLabel("Auto");
 
 	_btnStart = new JButton("START");
@@ -114,6 +114,7 @@ public class AppMain implements ActionListener {
 	    lblHAL = null;
 	    lblHAL = new JLabel("", imgIcon, JLabel.CENTER);
 	} catch (MalformedURLException urle) {
+	    System.out.println(urle.getMessage());
 	}
 
 	_frmLogin = new JFrame("RESCHU");

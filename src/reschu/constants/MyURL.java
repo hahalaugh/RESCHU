@@ -6,7 +6,7 @@ public class MyURL {
     // final static public String URL_DOMAIN = "http://127.0.0.1/halab/";
     final static public String URL_DOMAIN = "file:///"
 	    + System.getProperty("user.dir") + "/halab/";
-    
+
     final static public String LOCAL_DOMAIN = "./halab/";
     final static public String URL_PREFIX = URL_DOMAIN + "img/";
     final static public String URL_TUTORIAL = URL_DOMAIN + "tutorial/";
@@ -29,7 +29,7 @@ public class MyURL {
 	    + "MaybeTasksBad.dat";
     final static public String URL_NO_HINT_TASK = URL_PAYLOAD
 	    + "NoHintTasks.dat";
-    
+
     final static public String LOCAL_TASK_SEQUENCE = LOCAL_PAYLOAD
 	    + "TaskSequence.dat";
     final static public String LOCAL_TUTORIAL_TASK = LOCAL_PAYLOAD

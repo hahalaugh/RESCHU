@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import reschu.app.ScenarioConfig;
 import reschu.constants.*;
 import reschu.game.controller.GUI_Listener;
+import reschu.game.controller.Reschu;
 
 public class FrameEnd extends JFrame {
     private static final long serialVersionUID = 1490485040395748916L;
@@ -54,6 +55,7 @@ public class FrameEnd extends JFrame {
 	try {
 	    imgIcon = new ImageIcon(new URL(MyURL.URL_PREFIX + "HAL.png"));
 	} catch (MalformedURLException urle) {
+	    urle.printStackTrace();
 	}
 	lblHAL = new JLabel("", imgIcon, JLabel.CENTER);
 
@@ -62,8 +64,10 @@ public class FrameEnd extends JFrame {
 	    public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnStart) {
 		    try {
-			openWebpage(new URL(ScenarioConfig.GetInstance()
-				.get_surveyURL()).toURI());
+			if (Reschu.expermient()) {
+			    openWebpage(new URL(ScenarioConfig.GetInstance()
+				    .get_surveyURL()).toURI());
+			}
 			System.exit(0);
 		    } catch (URISyntaxException ee) {
 			ee.printStackTrace();

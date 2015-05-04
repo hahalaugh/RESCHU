@@ -268,7 +268,7 @@ public class Reschu extends JFrame implements GUI_Listener {
 	    JOptionPane
 		    .showMessageDialog(
 			    null,
-			    "Train for as long as you want and close the window "
+			    "You will have 10 minutes training time. "
 				    + "when you are done to proceed to the main experiment. ",
 			    "Message", 1);
 
@@ -283,9 +283,11 @@ public class Reschu extends JFrame implements GUI_Listener {
     }
 
     public void Game_End() {
-	PanelMsgBoard.Msg("YOUR TOTAL SCORE: " + game.getCorrectHit(),
-		MessageType.SystemInfo);
-	EVT_System_GameEnd();
+	// PanelMsgBoard.Msg("YOUR TOTAL SCORE: " + game.getCorrectHit(),
+	// MessageType.SystemInfo);
+	EVT_System_GameEnd(this.game.getWorkload(), game.getAutomation(),
+		game.getCorrectHit(), game.getInCorrectHit(),
+		game.getVVDamage(), game.getVHDamage());
 	game.stop();
 	DataRecorder.Stop();
 	Thread.currentThread().interrupt();
@@ -659,10 +661,17 @@ public class Reschu extends JFrame implements GUI_Listener {
 		-1, -1);
     }
 
-    public void EVT_System_GameEnd() {
-	Write(MyDB.INVOKER_SYSTEM, MyDB.SYSTEM_GAME_END, -1, "Game End, user="
-		+ _username + ", scenario=" + _scenario + ", total_damage="
-		+ game.getVehicleList().getTotalDamage(), -1, -1);
+    public void EVT_System_GameEnd(int workload, int automation, int correct,
+	    int incorrect, double vvDamage, double vhDamage) {
+
+	workload++;
+	automation++;
+
+	String s = "Game End. Scenario = " + this._scenario + " workload = "
+		+ workload + " automation = " + automation + " correct = "
+		+ correct + " incorrect = " + incorrect + " vvdamage = "
+		+ vvDamage + " vhDamage = " + vhDamage;
+	Write(MyDB.INVOKER_SYSTEM, MyDB.SYSTEM_GAME_END, -1, s, -1, -1);
     }
 
     /**
@@ -911,4 +920,5 @@ public class Reschu extends JFrame implements GUI_Listener {
 	}
 	return false;
     }
+
 }

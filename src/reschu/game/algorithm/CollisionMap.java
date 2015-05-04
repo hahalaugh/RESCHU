@@ -30,8 +30,10 @@ public class CollisionMap {
 		double[] pixel = track.get(j);
 		// Set cell with vehicle id
 
-		mp[(int) pixel[0]][(int) pixel[1]] = RemoveDuplicates(ExpendArray(
-			mp[(int) pixel[0]][(int) pixel[1]], v.getIndex()));
+		if (pixel[0] >= 0 && pixel[1] >= 0) {
+		    mp[(int) pixel[0]][(int) pixel[1]] = RemoveDuplicates(ExpendArray(
+			    mp[(int) pixel[0]][(int) pixel[1]], v.getIndex()));
+		}
 	    }
 	}
 	return mp;

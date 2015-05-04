@@ -476,6 +476,7 @@ class VehiclePanel extends JPanel implements ActionListener {
 	    imgIcon = new ImageIcon(new URL(MyURL.URL_VEHICLE + v.getType()
 		    + "_" + v.getPayload() + ".jpg"));
 	} catch (MalformedURLException urle) {
+	    urle.printStackTrace();
 	}
 	// lblVehicle = new JLabel(v.getName(), imgIcon, JLabel.CENTER);
 	lblVehicle = new JLabel("", imgIcon, JLabel.CENTER);

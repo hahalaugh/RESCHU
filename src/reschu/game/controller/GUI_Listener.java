@@ -150,7 +150,8 @@ public interface GUI_Listener {
 
     public void EVT_System_GameStart();
 
-    public void EVT_System_GameEnd();
+    public void EVT_System_GameEnd(int workload, int automation, int correct,
+	    int incorrect, double vvDamage, double vhDamage);
 
     /**
      * For Yves

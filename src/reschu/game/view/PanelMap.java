@@ -229,6 +229,7 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	    }
 	} catch (MalformedURLException urle) {
 	    // define img in the other way
+	    urle.printStackTrace();
 	}
 	this.add(btnEmpty);
 	this.addMouseListener(this);

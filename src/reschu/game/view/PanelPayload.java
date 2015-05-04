@@ -222,6 +222,7 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 		    try {
 			Thread.sleep(50);
 		    } catch (InterruptedException e) {
+			e.printStackTrace();
 		    }
 
 		    x_dist += x_direction * ((float) rnd.nextGaussian() + 2);
@@ -468,15 +469,19 @@ public class PanelPayload extends MyCanvas implements GLEventListener {
 
     public synchronized void ReplaceImage() {
 	if (!imageReplaced) {
+
+	    if (img != null)
+		img.flush();
+
 	    img = new BufferedImage(img.getWidth(), img.getHeight(),
 		    img.getType());
-	    img.flush();
+	    // img.flush();
 	    updateAnimRenderer();
 
 	    Runnable runnable = new Runnable() {
-		public void run() {
+		public synchronized void run() {
 		    try {
-			Thread.sleep(500);
+			Thread.sleep(4000);
 			img = ImageIO.read(new URL(curPayload
 				.getClearFilename()));
 			updateAnimRenderer();

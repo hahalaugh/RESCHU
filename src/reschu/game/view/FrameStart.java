@@ -59,6 +59,7 @@ public class FrameStart extends JFrame implements ActionListener {
 	try {
 	    imgIcon = new ImageIcon(new URL(MyURL.URL_PREFIX + "HAL.png"));
 	} catch (MalformedURLException urle) {
+	    urle.printStackTrace();
 	}
 
 	lblHAL = new JLabel("", imgIcon, JLabel.CENTER);

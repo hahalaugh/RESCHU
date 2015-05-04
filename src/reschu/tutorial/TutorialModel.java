@@ -72,7 +72,6 @@ public abstract class TutorialModel {
 	    label.setBorder(new EtchedBorder());
 	} catch (MalformedURLException urle) {
 	    System.out.println(urle.getMessage());
-
 	}
 
 	return label;
