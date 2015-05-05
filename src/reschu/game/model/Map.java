@@ -13,8 +13,6 @@ public class Map {
     private LinkedList<Target> listAssignedTarget = new LinkedList<Target>();
     private LinkedList<Target> listUnassignedTarget = new LinkedList<Target>();
     private LinkedList<int[]> listHazard = new LinkedList<int[]>();
-    // {x, y, radius}
-    private ArrayList<double[]> criticalZones = new ArrayList<double[]>();
 
     Map() {
     }
@@ -23,22 +21,6 @@ public class Map {
 	map_array = new int[width][height];
 	this.g = g;
 	lsnr = l;
-    }
-
-    public synchronized ArrayList<double[]> GetCriticalZones() {
-	return this.criticalZones;
-    }
-
-    public void UpdateCriticalZone() {
-	criticalZones.clear();
-	for (int i = 0; i < g.getVehicleList().size(); i++) {
-	    Vehicle v = g.getVehicleList().getVehicle(i);
-	    if (v.hasGoal()) {
-		double[] cz = new double[] { v.getPath().getLast()[0],
-			v.getPath().getLast()[1], v.RDes };
-		criticalZones.add(cz.clone());
-	    }
-	}
     }
 
     public LinkedList<Target> getListAssignedTarget() {
@@ -157,17 +139,22 @@ public class Map {
 		: MyGame.nHAZARD_AREA;
 	int nHazardNeed = nHazard - getListHazard().size();
 	int x, y;
-
+	int count = 0; 
+	
 	for (int i = 0; i < nHazardNeed; i++) {
 	    while (!chkOkayToAdd((x = rnd.nextInt(MySize.width)),
 		    (y = rnd.nextInt(MySize.height)))) {
+		if(count++ > 10000)
+		{
+		    break;
+		}
 	    }
 	    addHazard(x, y, rnd.nextInt(5));
 	}
     }
 
     private boolean chkOkayToAdd(int x, int y) {
-	final int LIMIT_DISTANCE = 50;
+	final int LIMIT_DISTANCE = 40;
 	final boolean DEBUG = false;
 
 	for (int i = 0; i < listAssignedTarget.size(); i++) {
@@ -235,14 +222,18 @@ public class Map {
 		- getTargetSize("SHORE");
 	int nCommTargetNeed = MyGame.nTARGET_AREA_COMM - getTargetSize("COMM");
 
-	// int cnt = 0;
-	// final int limit = 100000;
+	int cnt = 0;
+	final int limit = 100000;
 
 	for (int i = 0; i < nLandTargetNeed; i++) {
 	    int x, y;
 	    do {
 		x = rnd.nextInt(MySize.width);
 		y = rnd.nextInt(MySize.height);
+		if (++cnt >= limit) {
+		    throw new UserDefinedException(
+			    "setTargetArea(land) try limit exceed");
+		}
 	    } while (!(getCellType(x, y) != MyGame.SEA && chkOkayToAdd(x, y)));
 	    Target t = new Target(g.getEmptyTargetName(),
 		    chkTargetOffset(x, y), "LAND", "UAV",
@@ -254,15 +245,12 @@ public class Map {
 	    do {
 		x = rnd.nextInt(MySize.width);
 		y = rnd.nextInt(MySize.height);
+		if (++cnt >= limit) {
+		    throw new UserDefinedException(
+			    "setTargetArea(shore) try limit exceed");
+		}
 	    } while (!(getCellType(x, y) == MyGame.SEASHORE && chkOkayToAdd(x,
-		    y))); // @change
-			  // yale
-			  // 2008-06-29
-			  // ||
-			  // !chkOkayToAdd(x,y)
-			  // );
-	    // Target t = new Target(g.getEmptyTargetName(), chkTargetOffset(x,
-	    // y), "SHORE", "UUV", g.getTargetVisibility());
+		    y)));
 	    Target t = new Target(g.getEmptyTargetName(),
 		    chkTargetOffset(x, y), "SHORE", "UAV",
 		    g.getTargetVisibility());
@@ -273,6 +261,10 @@ public class Map {
 	    do {
 		x = rnd.nextInt(MySize.width);
 		y = rnd.nextInt(MySize.height);
+		if (++cnt >= limit) {
+		    throw new UserDefinedException(
+			    "setTargetArea(comm) try limit exceed");
+		}
 	    } while (!chkOkayToAdd(x, y));
 	    Target t = new Target(g.getEmptyTargetName(),
 		    chkTargetOffset(x, y), "COMM", "UAV",
