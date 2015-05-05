@@ -16,7 +16,7 @@ import reschu.game.controller.Reschu;
 
 public class AppMain implements ActionListener {
     final private boolean WRITE_TO_DATABASE = false;
-
+    public final static String VERSION = "RESCHU 050415_1";
     private String _username;
     private int _gamemode = MyGameMode.TUTORIAL_MODE;
     private int _scenario;
@@ -117,7 +117,7 @@ public class AppMain implements ActionListener {
 	    System.out.println(urle.getMessage());
 	}
 
-	_frmLogin = new JFrame("RESCHU");
+	_frmLogin = new JFrame(VERSION);
 	_frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	_frmLogin.setLayout(new GridLayout(0, 1));
 	_frmLogin.setResizable(false);

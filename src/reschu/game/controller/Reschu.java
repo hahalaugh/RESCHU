@@ -98,7 +98,7 @@ public class Reschu extends JFrame implements GUI_Listener {
      */
     public Reschu(int gamemode, int scenario, String username, AppMain main,
 	    boolean database, int workload, int automation) {
-	super("RESCHU");
+	super(AppMain.VERSION);
 	_gamemode = gamemode;
 	_scenario = scenario;
 	_username = username;
