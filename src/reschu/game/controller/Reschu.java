@@ -108,6 +108,9 @@ public class Reschu extends JFrame implements GUI_Listener {
 
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+	//Juntao 8/2/2015
+	//_gamemode = MyGameMode.EXTRA_TUTORIAL_MODE;
+		
 	if (tutorial() || extraTutorial())
 	    tutorial = new Tutorial(this, main);
 	if (train()) {
@@ -919,6 +922,11 @@ public class Reschu extends JFrame implements GUI_Listener {
 	    }
 	}
 	return false;
+    }
+
+    public void Update_Hazard_Highlight_Info(String highlightList) {
+	// TODO Auto-generated method stub
+	DataRecorder.Write("VH Collision:" + highlightList);
     }
 
 }

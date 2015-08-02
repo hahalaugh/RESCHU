@@ -71,6 +71,14 @@ public class VehicleList {
 	    y = rnd.nextInt(MySize.height);
 	}
 
+	//Adjust the initial position of vehicle 1 in tutorial mode. The reaction time was too little for
+	//participants to perform required operations.
+	if(Reschu.tutorial() && idx == 1)
+	{
+	    y += 40;
+	    x -= 30;
+	}
+	
 	if (v_type == Vehicle.TYPE_UUV) {
 	    UUV v_uuv = new UUV(m, g);
 	    while (m.getCellType(x, y) == MyGame.LAND) {

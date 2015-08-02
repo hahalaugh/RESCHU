@@ -252,7 +252,13 @@ public class Game implements Runnable, ActionListener {
 	    // Low - > High
 	    speed = ScenarioConfig.GetInstance().get_slowVehicleSpeed();
 	}
-
+	
+	//Half the speed if it's extra tutorial mode. 
+	if(Reschu.extraTutorial())
+	{
+	   speed *= 2;
+	}
+	
 	try {
 	    switch (scenario) {
 	    case 1:
@@ -660,6 +666,28 @@ public class Game implements Runnable, ActionListener {
 	for (int i = 0; i < vehicle_list.size(); i++) {
 	    v = vehicle_list.getVehicle(i);
 	    AutoTargetAssign(v);
+	}
+	
+	//Hard code hazard close to the target of vehicles.
+	if(Reschu.extraTutorial())
+	{
+	    for(int i = 0; i < this.vehicle_list.size(); i++)
+	    {
+		Vehicle vv = vehicle_list.getVehicle(i);
+		Target t = vv.getTarget();
+
+		if(i == 0)
+		{
+			map.getListHazard().get(i)[0] = t.getPos()[0] + 30;
+			map.getListHazard().get(i)[1] = t.getPos()[1] + 20;
+		}
+		
+		if(i == 1)
+		{
+			map.getListHazard().get(i)[0] = t.getPos()[0] + 10;
+			map.getListHazard().get(i)[1] = t.getPos()[1] - 30;
+		}
+	    }
 	}
     }
 

@@ -190,4 +190,6 @@ public interface GUI_Listener {
     public void UpdateFakeCollisionZoneListTrack(Integer vId);
 
     public boolean IsFakedCollisionZonePair(Integer vId1, Integer vId2);
+    
+    public void Update_Hazard_Highlight_Info(String highlightList);
 }

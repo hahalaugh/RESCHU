@@ -16,7 +16,7 @@ import reschu.game.controller.Reschu;
 
 public class AppMain implements ActionListener {
     final private boolean WRITE_TO_DATABASE = false;
-    public final static String VERSION = "RESCHU 050415_1";
+    public final static String VERSION = "RESCHU 080215_1";
     private String _username;
     private int _gamemode = MyGameMode.TUTORIAL_MODE;
     private int _scenario;

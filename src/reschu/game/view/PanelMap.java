@@ -16,6 +16,7 @@ import java.awt.Toolkit;
 import reschu.constants.*;
 import reschu.game.algorithm.CollisionMap;
 import reschu.game.algorithm.CollisionZone;
+import reschu.game.algorithm.Geo;
 import reschu.game.controller.GUI_Listener;
 import reschu.game.controller.Reschu;
 import reschu.game.model.Game;
@@ -174,7 +175,7 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	int count = 0;
 	for (int i = 0; i < collisionMap.length; i++) {
 	    for (int j = 0; j < collisionMap[0].length; j++) {
-		if (collisionMap[i][j] == CollisionMap.HAZARD_COLLISION) {
+		if (collisionMap[i][j] != 0) {
 		    count++;
 		}
 	    }
@@ -236,6 +237,45 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	this.addMouseMotionListener(this);
     }
 
+    public boolean isUniquePoint(ArrayList<int[]> list, int[] pos)
+    {
+	double[] pTarget = new double[]{pos[0], pos[1], pos[2]};
+	for(int[] p : list)
+	{
+	    double[] p1 = new double[]{p[0], p[1], p[2]};
+	    //System.out.println(Geo.Distance(p1, pTarget) + "----" + p1[2] + "," + pTarget[2]);
+	    if((Geo.Distance(p1, pTarget) < 12) && (p1[2] == pTarget[2]))
+	    {
+		return false;
+	    }
+	}
+	return true;
+    }
+    
+    public String VHHighlightToString()
+    {
+	String result = "VH Collision: ";
+	ArrayList<int[]> activePointsList = new ArrayList<int[]>();
+	
+	for(int i = 0; i < this.collisionMap.length; i++ )
+	{
+	    for(int j = 0; j < this.collisionMap[0].length; j++)
+	    {
+		if(this.collisionMap[i][j] > 0)
+		{
+		    if(this.isUniquePoint(activePointsList, new int[]{i,j, collisionMap[i][j]}))
+		    {
+			activePointsList.add(new int[]{i, j, collisionMap[i][j]});
+			Vehicle v = game.getVehicleList().getVehicleByIndex(this.collisionMap[i][j]);
+			result += String.format("[%d, %d, %d, %d, %d],", i, j, this.collisionMap[i][j], (int)v.movingStatus[0], (int)v.movingStatus[1]);
+		    }
+		   
+		}
+	    }
+	}
+	
+	return result;
+    }
     /**
      * For DEBUG
      */
@@ -259,7 +299,7 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 	paintText(g2d);
 	paintStatistics(g2d);
 	updateCollisionMap();
-	lsnr.UpdateMapLogData(this.CollisionZonesToString() + map.toString());
+	lsnr.UpdateMapLogData(this.CollisionZonesToString() + map.toString() + VHHighlightToString());
 	lsnr.Update_Collision_Info(this.collisionZones);
 
 	if (Game.collisionHighlightEnabled) {
@@ -443,7 +483,8 @@ public class PanelMap extends JPanel implements ActionListener, MouseListener,
 
 	for (int i = 0; i < this.collisionMap.length; i++) {
 	    for (int j = 0; j < this.collisionMap[0].length; j++) {
-		if (this.collisionMap[i][j] == CollisionMap.HAZARD_COLLISION) {
+		//if (this.collisionMap[i][j] == CollisionMap.HAZARD_COLLISION) {
+		if (this.collisionMap[i][j] != 0) {
 		    p.paintOval(g, i, j, cellsize, MySize.SIZE_COLLISION,
 			    MyColor.COLOR_COLLISION_TRACK);
 		}

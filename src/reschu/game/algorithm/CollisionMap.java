@@ -92,7 +92,8 @@ public class CollisionMap {
 			    if (map[(int) (x + hor)][(int) (y + ver)] == HAZARD_CONTOUR
 				    && Geo.Distance(v.movingStatus,
 					    new double[] { x + hor, y + ver }) < v.RSen) {
-				collisionMap[(int) (x + hor)][(int) (y + ver)] = CollisionMap.HAZARD_COLLISION;
+				//collisionMap[(int) (x + hor)][(int) (y + ver)] = CollisionMap.HAZARD_COLLISION;
+				collisionMap[(int) (x + hor)][(int) (y + ver)] = (byte)v.getIndex();
 			    }
 			}
 		    }

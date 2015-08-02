@@ -36,14 +36,14 @@ public class ControlTutorial extends TutorialModel {
 	    System.out.println("2");
 	    JOptionPane.showMessageDialog(null, makePicPanel("GUI.png", ""));
 	    // Step_2: Explains the Interface Elements
-	    setDuration(3);
+	    setDuration(1);
 	    nextDialog();
 	    break;
 	case 3:
 	    System.out.println("3");
 	    JOptionPane.showMessageDialog(null, makePicPanel("icon.png", ""));
 	    // Step_1: Explains the Map elements
-	    setDuration(3);
+	    setDuration(1);
 	    nextDialog();
 	    break;
 	case 4:
